@@ -2,6 +2,8 @@
 # coding: utf-8
 import random, json
 from pprint import pprint
+from framework.room import room
+
 
 class GameObject():
     def __init__(self, x = 0, y = 0):
@@ -56,11 +58,11 @@ class LivingObject(GameObject):
             self.destroy()
         if self.hp > self.maxHp:
             self.hp = self.maxHp
-    
+
     def setHp(self, hp):
         self.hp = hp
         self.setMaxHp(hp)
-    
+
     def setMaxHp(self, maxHp):
         self.maxHp = maxHp
 
@@ -69,6 +71,37 @@ class LivingObject(GameObject):
 
     def setLevel(self, level):
         self.level = level
+############################################################
+
+
+class Monster(LivingObject):
+    def __init__(self, x = 0, y = 0):
+        super().__init__(x, y)
+
+    def setAtk(self, minAtk, maxAtk):
+        self.minAtk = minAtk
+        self.maxAtk = maxAtk
+
+    def setCritChance(self, critChance):
+        self.critChance = critChance
+
+    def setCritCoeff(self, critCoeff):
+        self.critCoeff = critCoeff
+
+    def updateDamage(self):
+        dmg = random.randint(self.minAtk, self.maxAtk)
+        rand = random.randint(0, 100)
+        if self.critChance >= rand:
+            dmg *= self.critCoeff
+        super().setDamage(int(round(dmg)))
+
+    def setName(self, name):
+        self.name = name
+
+    def move(self, x, y):
+        self.updateDamage()
+        self.setPosition(x, y)
+
 
 ############################################################
 
@@ -102,7 +135,7 @@ class Player(LivingObject):
         if isinstance(item, Food):
             self.foods.remove(item)
         if isinstance(item, Weapon):
-            self.weapons.remove(item) 
+            self.weapons.remove(item)
 
     def equip(self, item):
         self.equippedWeapon = item
@@ -114,9 +147,6 @@ class Player(LivingObject):
             rand = random.randint(0, 100)
             if self.equippedWeapon.critChance >= rand:
                 dmg *= self.equippedWeapon.critCoeff
-                print("Degat (CC): " + str(int(round(dmg))))
-            else:
-                print("Degat: " + str(int(round(dmg))))
         livingObject.modifyHp(-int(round(dmg)))
 
     def regen(clock):
@@ -142,7 +172,7 @@ class Item(GameObject):
 class Food(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
-    
+
     def setHpGiven(self, hp):
         self.hpGiven = hp
 
@@ -178,6 +208,9 @@ class Gold(Item):
 
 ############################################################
 
+X = 100
+Y = 10
+
 class GameManager():
     def __init__(self):
         self.clock = 0
@@ -189,17 +222,32 @@ class GameManager():
 
         self.placedItems = {}
         self.placedMobs = {}
-        self.gameObject = {}
+        self.board = room(X, Y)
 
         self.player = Player(0, 0)
         self.player.setSym('\u263A')
-    
+        
     def update(self, x, y):
         self.clock += 1
         self.checkCollision(x, y)
         self.player.regen(self.clock)
         if self.clock >= 100:
             self.clock = 0
+
+
+    def loadMonsters(self, path):
+        with open(path) as file:
+            data = json.load(file)
+        for d in data:
+            monster = Monster(0,0)
+            monster.setSym(d["symbol"])
+            monster.setAtk(d["min"], d["max"])
+            monster.setCritCoeff(d["critCoeff"])
+            monster.setCritChance(d["critChance"])
+            monster.setName(d["name"])
+            monster.setHp(d["hp"])
+            monster.updateDamage()
+            self.mobs.append(monster)
 
     def loadItems(self, path):
         with open(path) as file:
@@ -212,7 +260,7 @@ class GameManager():
                     weapon.setDescription(n["description"])
                     weapon.setAtk(n["min"], n["max"])
                     weapon.setCritChance(n["critChance"])
-                    weapon.setCritCoeff(n["critCoeff"])0
+                    weapon.setCritCoeff(n["critCoeff"])
                     self.weapons.append(weapon)
                 if "gold" in id:
                     gold = Gold(0, 0)
@@ -227,20 +275,40 @@ class GameManager():
                     food.setHpGiven(n["hpGiven"])
                     self.foods.append(food)
 
-    def loadMobs(self):
-        with open(path) as file:
-            data = json.load(file)
-
     def checkCollision(self, x, y):
             obj = self.gameObject[(x, y)]
             if obj:
                 if isinstance(obj, Item):
-                    if self.player.collide(obj)
+                    if self.player.collide(obj):
                         self.player.addItem(obj)
                         self.gameObject[(x, y)].remove(obj)
                 if isinstance(obj, Monster):
                     self.player.attack(obj)
-                if isinstance(obj, Wall):
-                    if self.player.collide(obj):
-                        self.player.rollBack()
-                
+                # if isinstance(obj, Wall):
+                #    if self.player.collide(obj):
+                #       self.player.rollBack()
+
+    def printBoard(self):
+        board = self.board
+       # self.placeItem(10)
+        self.placeMob(10)
+        for y in range(Y):
+            for x in range(X):
+                print(board[(x, y)], end = '')
+            print()
+
+    def placeItem(self, number):
+        board = self.board
+        while number:
+            index = random.choice(list(board.keys()))
+            if board[index] is '-':
+                number -= 1
+                board[index] = 'A'
+
+    def placeMob(self, number):
+        board = self.board
+        while number:
+            index = random.choice(list(board.keys()))
+            if board[index] is '-':
+                number -= 1
+                board[index] = self.mobs[random.randint(0, len(self.mobs) - 1)].sym
