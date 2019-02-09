@@ -8,14 +8,9 @@ from framework.gamemanager import *
 import curses
 import sys
 
-
-
 from collections import defaultdict as dd
 
-
-
-
-
+import time
 
 def main(stdscr):
     stdscr.clear()
@@ -37,30 +32,28 @@ def main(stdscr):
     board = Board([roomA, roomB], [(doorA, doorB)])
 
     Manager = GameManager(board)
+    Manager.loadItems('items.json')
+    Manager.loadMonsters('mobs.json')
+    Manager.placeItem(4)
+    Manager.placeMob(2)
    # Manager.printBoard()
-    y, x = 10, 1
     while True:
         win.erase()
 
         for _, gameObject in board.all.items():
             win.addstr(gameObject.y, gameObject.x, gameObject.sym)
 
-        win.addstr(y, x, "\u263b")
+        for coord in Manager.placedItems:
+            item = Manager.placedItems[coord]
+            win.addstr(item.y, item.x, item.sym)
+
+        for coord in Manager.placedMobs:
+            item = Manager.placedMobs[coord]
+            win.addstr(item.y, item.x, item.sym)
+        win.addstr(Manager.player.y, Manager.player.x, "\u263b")
         win.refresh()
         key = win.getch()
-        if key == curses.KEY_LEFT:
-            if x > 1:
-                x -= 1
-        elif key == curses.KEY_RIGHT:
-            if x < MAP_WIDTH - 2:
-                x += 1
-            x += 1
-        elif key == curses.KEY_UP:
-            if y > 1:
-                y -= 1
-        elif key == curses.KEY_DOWN:
-            if y < MAP_HEIGHT - 2:
-                y += 1
+        Manager.checkCollision(key)
 
 
 if __name__ == "__main__":

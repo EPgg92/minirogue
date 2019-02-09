@@ -2,6 +2,7 @@
 
 from framework.gameobject import *
 from queue import Queue
+from pprint import pprint
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 75
@@ -91,12 +92,13 @@ class Room():
         self.y = y
         self.width = width
         self.height = height
-
         self.doors = {}
+        self.tiles = {}
+        self.walls = {}
+
         for door in doors:
             self.doors[(door.x, door.y)] = door
 
-        self.walls = {}
         for x in range(self.x, self.x + width):
             if (x, self.y) not in self.doors:
                 wall = Wall(x, self.y)
@@ -115,7 +117,6 @@ class Room():
                 wall = Wall(self.x + width - 1, y)
                 self.walls[(self.x + width - 1, y)] = wall
 
-        self.tiles = {}
         for x in range(self.x + 1, self.x + width - 1):
             for y in range(self.y + 1, self.y + height - 1):
                 tile = Tile(x, y)
