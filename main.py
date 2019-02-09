@@ -12,7 +12,8 @@ def main(stdscr):
     stdscr.clear()
 
     if curses.COLS < MAP_WIDTH - 1 or curses.LINES < MAP_HEIGHT - 1:
-        print("Terminal Too Small", file=sys.stderr)
+        stdscr.addstr(0, 0, "Terminal Too Small")
+        stdscr.getch()
         sys.exit(-1)
 
     curses.curs_set(0)
