@@ -53,7 +53,7 @@ def path_find(start, end, obstacles):
         path = [current] + path
         current = came_from[current]
 
-    return path
+    return path[:-1]
 
 class Board():
     def __init__(self, rooms, association_of_doors):
