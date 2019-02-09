@@ -253,6 +253,7 @@ class GameManager():
                     food.setName(n["name"])
                     food.setDescription(n["description"])
                     food.setHpGiven(n["hpGiven"])
+                    self.foods.append(food)
 
     def loadMobs(self):
         with open(path) as file:
