@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys
+import sys, random
 
 class GameObject():
     def __init__(self, x, y):
@@ -49,12 +49,14 @@ class LivingObject(GameObject):
     def modifyHp(self, hp):
         self.hp += hp
         if self.hp <= 0:
+            self.hp = 0
             self.destroy()
         if self.hp > self.maxHp:
             self.hp = self.maxHp
     
     def setHp(self, hp):
         self.hp = hp
+        self.setMaxHp(hp)
     
     def setMaxHp(self, maxHp):
         self.maxHp = maxHp
@@ -69,24 +71,50 @@ class LivingObject(GameObject):
 class Player(LivingObject):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.items = []
+        self.gold = 0
+        self.foods = []
+        self.weapons = []
         self.setHp(30)
         self.setMaxHp(30)
         self.setDamage(10)
         self.setColor(0xFF0000)
         self.setPosition(0, 0)
         self.setLevel(1)
-
+        self.equippedWeapon = None
 
     def eat(self, food):
         self.modifyHp(food.hp)
         self.delItem(food)
 
     def addItem(self, item):
-        self.items.append(item)
+        if isinstance(item, Food):
+            self.foods.append(item)
+        if isinstance(item, Weapon):
+            self.weapons.append(item)
+        if isinstance(item, Gold):
+            self.gold += item.amount
 
+        
     def delItem(self, item):
-        self.items.remove(item)
+        if isinstance(item, Food):
+            self.foods.remove(item)
+        if isinstance(item, Weapon):
+            self.weapons.remove(item) 
+
+    def equip(self, item):
+        self.equippedWeapon = item
+
+    def attack(self, livingObject):
+        dmg = self.damage
+        if self.equippedWeapon:
+            dmg += random.randint(self.equippedWeapon.minAtk, self.equippedWeapon.maxAtk)
+            rand = random.randint(0, 100)
+            if self.equippedWeapon.critChance >= rand:
+                dmg *= self.equippedWeapon.critCoeff
+                print("Degat (CC): " + str(int(round(dmg))))
+            else:
+                print("Degat: " + str(int(round(dmg))))
+        livingObject.modifyHp(-int(round(dmg)))
 
 
 class Item(GameObject):
@@ -102,6 +130,7 @@ class Item(GameObject):
         self.description = description
 
 
+
 class Food(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -109,35 +138,55 @@ class Food(Item):
     def setHpGiven(self, hp):
         self.hpGiven = hp
 
+
 class Weapon(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.coeff = 1.0
         self.critChance = 0 # 0-100
+        self.critCoeff = 1.5
 
-    def setCoeff(self, coeff):
-        this.coeff = coeff
+    def setAtk(self, min, max):
+        self.minAtk = min
+        self.maxAtk = max
 
     def setCritChance(self, crit):
-        this.critChance = crit
+        self.critChance = crit
 
+    def setCritCoeff(self, critCoeff):
+        self.critCoeff = critCoeff
 
+class Gold(Item):
+    def __init__(self, x, y):
+        super().__init__(x, y)
 
+    def setAmount(self, amount):
+        self.amount = amount
 
 p = Player(0, 0)
+p2 = Player(0, 0)
+
+p2.setHp(2500)
 
 item = Food(0, 0)
+item2 = Weapon(0, 0)
 
-manager = [item]
+item2.setAtk(42, 101)
+item2.setCritChance(18)
+item2.setCritCoeff(2.02)
 
-print(manager)
-print(p.items)
+gold = Gold(0, 0)
+gold.setAmount(42)
 
-if p.collide(item):
-    p.addItem(item)
+manager = [item, item2, gold]
 
-print(manager)
-print(p.items)
+p.equip(item2)
+
+print(p.equippedWeapon)
+
+while p2.hp > 0:
+    p.attack(p2)
+    print(p2.hp)
+
 
 # def main():
 #     p1 = GameObject(0, 0, 100, 22)
