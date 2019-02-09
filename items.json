@@ -14,16 +14,28 @@
 		{"name": "Four pieces of gold", "min": 4, "max" : 0},
 		{"name": "Five pieces of gold", "min": 5, "max" : 0},
 		{"name": "Six pieces of gold", "min": 6, "max" : 0},
-		{"name": "Two pieces of gold", "min": 1, "max" : 0},
-		{"name": "Two pieces of gold", "min": 1, "max" : 0},
-		{"name": "Two pieces of gold", "min": 1, "max" : 0},
-		{"name": "Two pieces of gold", "min": 1, "max" : 0},
-		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Seven pieces of gold", "min": 7, "max" : 0},
+		{"name": "Eight pieces of gold", "min": 8, "max" : 0},
+		{"name": "Nine pieces of gold", "min": 9, "max" : 0},
+		{"name": "Fourty two pieces of gold", "min": 42, "max" : 0},
+		{"name": "101 pieces of gold", "min": 101, "max" : 0},
 		{"name": "Small amount of gold", "min": 10, "max" : 20},
 		{"name": "Some gold", "min": 20, "max" : 40},
 		{"name": "Big amount of gold", "min": 40, "max" : 100}
   	],
   	"food": [
-		{}
+		{"name": "Apple", "hpGiven": 12},
+		{"name": "Mango", "hpGiven": 13},
+		{"name": "Akward potion", "hpGiven": -9},
+		{"name": "Akward potion", "hpGiven": 10},
+		{"name": "Glowing potion", "hpGiven": 100},
+		{"name": "Rotten flesh", "hpGiven": -30},
+		{"name": "Pesto Pasta", "hpGiven": 20},
+		{"name": "Candy", "hpGiven": 3},
+		{"name": "Candy", "hpGiven": 6},
+		{"name": "Candy", "hpGiven": 9},
+		{"name": "Goblin Urine", "hpGiven": -1},
+		{"name": "Coca", "hpGiven": 0},
+		{"name": "Fresh water", "hpGiven": 1}
 	]
 }
