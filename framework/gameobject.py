@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-import random
-import json
+# coding: utf-8
+import random, json
+from pprint import pprint
 
 class GameObject():
     def __init__(self, x = 0, y = 0):
@@ -32,6 +33,7 @@ class GameObject():
     def destroy(self):
         del(self)
 
+############################################################
 
 class LivingObject(GameObject):
     def __init__(self, x = 0, y = 0):
@@ -68,6 +70,7 @@ class LivingObject(GameObject):
     def setLevel(self, level):
         self.level = level
 
+############################################################
 
 class Player(LivingObject):
     def __init__(self, x = 0, y = 0):
@@ -116,6 +119,7 @@ class Player(LivingObject):
                 print("Degat: " + str(int(round(dmg))))
         livingObject.modifyHp(-int(round(dmg)))
 
+############################################################
 
 class Item(GameObject):
     def __init__(self, x, y):
@@ -129,7 +133,7 @@ class Item(GameObject):
     def setDescription(self, description):
         self.description = description
 
-
+############################################################
 
 class Food(Item):
     def __init__(self, x, y):
@@ -138,6 +142,7 @@ class Food(Item):
     def setHpGiven(self, hp):
         self.hpGiven = hp
 
+############################################################
 
 class Weapon(Item):
     def __init__(self, x, y):
@@ -155,6 +160,8 @@ class Weapon(Item):
     def setCritCoeff(self, critCoeff):
         self.critCoeff = critCoeff
 
+############################################################
+
 class Gold(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -165,14 +172,49 @@ class Gold(Item):
         else:
             self.amount = random.randint(amount, maxAmount)
 
+############################################################
 
 class GameManager():
-    def __init__():
+    def __init__(self):
         self.clock = 0
-        self.items = []
+        self.golds = []
+        self.weapons = []
+        self.foods = []
+        self.mobs = []
+        self.player = Player(0, 0)
+        self.player.setSym('')
     
-    def update():
+    def update(self):
         self.clock += 1
-
         if self.clock >= 100:
             self.clock = 0
+
+    def loadItems(self, path):
+        with open(path) as file:
+            data = json.load(file)
+        for id in data:
+            for n in data[id]:
+                if "weapon" in id:
+                    weapon = Weapon(0, 0)
+                    weapon.setName(n["name"])
+                    weapon.setDescription(n["description"])
+                    weapon.setAtk(n["min"], n["max"])
+                    weapon.setCritChance(n["critChance"])
+                    weapon.setCritCoeff(n["critCoeff"])
+                    self.weapons.append(weapon)
+                if "gold" in id:
+                    gold = Gold(0, 0)
+                    gold.setName(n["name"])
+                    gold.setDescription(n["description"])
+                    gold.setAmount(n["min"], n["max"])
+                    self.golds.append(gold)
+                if "food" in id:
+                    food = Food(0, 0)
+                    food.setName(n["name"])
+                    food.setDescription(n["description"])
+                    food.setHpGiven(n["hpGiven"])
+
+    def loadMobs(self):
+        with open(path) as file:
+            data = json.load(file)
+
