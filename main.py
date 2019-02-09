@@ -34,7 +34,7 @@ def main(stdscr):
     Manager = GameManager(board)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
-    Manager.placeItem(4)
+    Manager.placeItem(50)
     Manager.placeMob(2)
    # Manager.printBoard()
     while True:
@@ -50,10 +50,11 @@ def main(stdscr):
         for coord in Manager.placedMobs:
             item = Manager.placedMobs[coord]
             win.addstr(item.y, item.x, item.sym)
+        
         win.addstr(Manager.player.y, Manager.player.x, "\u263b")
         win.refresh()
         key = win.getch()
-        Manager.checkCollision(key)
+        Manager.update(key)
 
 
 if __name__ == "__main__":

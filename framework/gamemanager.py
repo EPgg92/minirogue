@@ -21,9 +21,9 @@ class GameManager():
         self.player = Player(1, 10)
         self.player.setSym('\u263A')
         
-    def update(self, x, y):
+    def update(self, key):
         self.clock += 1
-        self.checkCollision(x, y)
+        self.checkCollision(key)
         self.player.regen(self.clock)
         if self.clock >= 100:
             self.clock = 0
@@ -85,18 +85,18 @@ class GameManager():
         elif key == curses.KEY_DOWN:
             if self.player.y < MAP_HEIGHT - 2:
                 y += 1
-
-        obj = self.board.all[(x, y)]
-        if type(obj) != None:
-            if isinstance(obj, Item):
-                self.player.addItem(obj)
-                self.placedItems.remove((x, y))
-            elif isinstance(obj, Monster):
-                self.player.attack(obj)
-            
+        if (x, y) in self.board.all:
+            obj = self.board.all[(x, y)]
+            if (x, y) in self.placedItems:
+                self.player.addItem(self.placedItems[(x, y)])
+                del self.placedItems[(x, y)]
+            elif (x, y) in self.placedMobs:
+                self.player.attack(self.placedMobs[(x, y)])
+                if self.placedMobs[(x, y)].hp <= 0:
+                    del self.placedMobs[(x, y)]
             if not isinstance(obj, Wall):
                 self.player.move(x, y)
-            
+                
 
     # def printBoard(self):
     #     board = self.board

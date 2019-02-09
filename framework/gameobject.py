@@ -113,7 +113,6 @@ class Player(LivingObject):
         self.setMaxHp(30)
         self.setDamage(10)
         self.setColor(0xFF0000)
-        self.setPosition(0, 0)
         self.setLevel(1)
         self.equippedWeapon = None
 
@@ -147,7 +146,7 @@ class Player(LivingObject):
                 dmg *= self.equippedWeapon.critCoeff
         livingObject.modifyHp(-int(round(dmg)))
 
-    def regen(clock):
+    def regen(self, clock):
         if clock % 20 == 0:
             self.modifyHp(1)
 
