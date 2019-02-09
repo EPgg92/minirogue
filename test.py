@@ -7,7 +7,7 @@ class GameObject():
         self.y = y
         self.color = 0
         self.hidden = False
-        self.sym = '#'
+        self.sym = None
 
     def draw(window):
         pass
@@ -112,6 +112,16 @@ class Food(Item):
 class Weapon(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
+        self.coeff = 1.0
+        self.critChance = 0 # 0-100
+
+    def setCoeff(self, coeff):
+        this.coeff = coeff
+
+    def setCritChance(self, crit):
+        this.critChance = crit
+
+
 
 
 p = Player(0, 0)
