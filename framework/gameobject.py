@@ -119,6 +119,10 @@ class Player(LivingObject):
                 print("Degat: " + str(int(round(dmg))))
         livingObject.modifyHp(-int(round(dmg)))
 
+    def regen(clock):
+        if clock % 20 == 0:
+            self.modifyHp(1)
+
 ############################################################
 
 class Item(GameObject):
@@ -147,7 +151,7 @@ class Food(Item):
 class Weapon(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.critChance = 0 # 0-100
+        self.critChance = 0
         self.critCoeff = 1.5
 
     def setAtk(self, minAtk, maxAtk):
@@ -177,15 +181,23 @@ class Gold(Item):
 class GameManager():
     def __init__(self):
         self.clock = 0
+
         self.golds = []
         self.weapons = []
         self.foods = []
         self.mobs = []
+
+        self.placedItems = {}
+        self.placedMobs = {}
+        self.gameObject = {}
+
         self.player = Player(0, 0)
-        self.player.setSym('')
+        self.player.setSym('\u263A')
     
-    def update(self):
+    def update(self, x, y):
         self.clock += 1
+        self.checkCollision(x, y)
+        self.player.regen(self.clock)
         if self.clock >= 100:
             self.clock = 0
 
@@ -200,7 +212,7 @@ class GameManager():
                     weapon.setDescription(n["description"])
                     weapon.setAtk(n["min"], n["max"])
                     weapon.setCritChance(n["critChance"])
-                    weapon.setCritCoeff(n["critCoeff"])
+                    weapon.setCritCoeff(n["critCoeff"])0
                     self.weapons.append(weapon)
                 if "gold" in id:
                     gold = Gold(0, 0)
@@ -219,3 +231,16 @@ class GameManager():
         with open(path) as file:
             data = json.load(file)
 
+    def checkCollision(self, x, y):
+            obj = self.gameObject[(x, y)]
+            if obj:
+                if isinstance(obj, Item):
+                    if self.player.collide(obj)
+                        self.player.addItem(obj)
+                        self.gameObject[(x, y)].remove(obj)
+                if isinstance(obj, Monster):
+                    self.player.attack(obj)
+                if isinstance(obj, Wall):
+                    if self.player.collide(obj):
+                        self.player.rollBack()
+                
