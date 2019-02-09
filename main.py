@@ -8,15 +8,6 @@ from framework.gamemanager import *
 import curses
 import sys
 
-
-
-from collections import defaultdict as dd
-
-
-
-
-
-
 def main(stdscr):
     stdscr.clear()
 
