@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import sys, random
+import random
+import json
 
 class GameObject():
-    def __init__(self, x, y):
+    def __init__(self, x = 0, y = 0):
         self.x = x
         self.y = y
         self.color = 0
@@ -33,7 +34,7 @@ class GameObject():
 
 
 class LivingObject(GameObject):
-    def __init__(self, x, y):
+    def __init__(self, x = 0, y = 0):
         super().__init__(x, y)
         self.level = 1
 
@@ -69,7 +70,7 @@ class LivingObject(GameObject):
 
 
 class Player(LivingObject):
-    def __init__(self, x, y):
+    def __init__(self, x = 0, y = 0):
         super().__init__(x, y)
         self.gold = 0
         self.foods = []
@@ -163,39 +164,15 @@ class Gold(Item):
             self.amount = amount
         else:
             self.amount = random.randint(amount, maxAmount)
+
+
+class GameManager():
+    def __init__():
+        self.clock = 0
+        self.items = []
     
+    def update():
+        self.clock += 1
 
-p = Player(0, 0)
-p2 = Player(0, 0)
-
-p2.setHp(2500)
-
-item = Food(0, 0)
-item2 = Weapon(0, 0)
-
-item2.setAtk(42, 101)
-item2.setCritChance(18)
-item2.setCritCoeff(2.02)
-
-gold = Gold(0, 0)
-gold.setAmount(42)
-
-manager = [item, item2, gold]
-
-p.equip(item2)
-
-print(p.equippedWeapon)
-
-while p2.hp > 0:
-    p.attack(p2)
-    print(p2.hp)
-
-
-# def main():
-#     p1 = GameObject(0, 0, 100, 22)
-#     p2 = GameObject(0, 0, 101, 42)
-
-#     print(p1.collide(p2))
-
-# if __name__ == "__main__":
-#     main()
+        if self.clock >= 100:
+            self.clock = 0
