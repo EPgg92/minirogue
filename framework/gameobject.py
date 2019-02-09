@@ -56,11 +56,11 @@ class LivingObject(GameObject):
             self.destroy()
         if self.hp > self.maxHp:
             self.hp = self.maxHp
-    
+
     def setHp(self, hp):
         self.hp = hp
         self.setMaxHp(hp)
-    
+
     def setMaxHp(self, maxHp):
         self.maxHp = maxHp
 
@@ -69,6 +69,33 @@ class LivingObject(GameObject):
 
     def setLevel(self, level):
         self.level = level
+############################################################
+
+
+class Monster(LivingObject):
+    def __init__(self, x = 0, y = 0):
+        super().__init__(x, y)
+
+	def setAtk(self, minAtk, maxAtk):
+		self.minAtk = minAtk
+		self.maxAtk = maxAtk
+
+	def setCritChance(self, critChance):
+		self.critChance = critChance
+
+	def setcritCoeff(self, critCoeff):
+		self.critCoeff = critCoeff
+
+	def updateDamage(self):
+		dmg = random.randint(self.minAtk, self.maxAtk)
+		rand = random.randint(0, 100)
+		if self.critChance >= rand:
+			dmg *= self.critCoeff
+		super().setDamage(dmg)
+
+	def setfull_name(self, full_name):
+		self.full_name = full_name
+
 
 ############################################################
 
@@ -102,7 +129,7 @@ class Player(LivingObject):
         if isinstance(item, Food):
             self.foods.remove(item)
         if isinstance(item, Weapon):
-            self.weapons.remove(item) 
+            self.weapons.remove(item)
 
     def equip(self, item):
         self.equippedWeapon = item
@@ -138,7 +165,7 @@ class Item(GameObject):
 class Food(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
-    
+
     def setHpGiven(self, hp):
         self.hpGiven = hp
 
@@ -183,11 +210,24 @@ class GameManager():
         self.mobs = []
         self.player = Player(0, 0)
         self.player.setSym('')
-    
+
     def update(self):
         self.clock += 1
         if self.clock >= 100:
             self.clock = 0
+
+
+	def loadMonster(self, path):
+		with open(path) as file:
+			data = json.load(file)
+		for d in data:
+			monster = Monster(0,0)
+			monster.setSym(d["symbol"])
+			monster.setAtk(d["min"], d["max"])
+			monster.setCritCoeff(d["critCoeff"])
+			monster.setCritChance(d["critChance"])
+			monster.setfull_name(d["full_name"])
+			mobs.append(monster)
 
     def loadItems(self, path):
         with open(path) as file:
@@ -217,4 +257,3 @@ class GameManager():
     def loadMobs(self):
         with open(path) as file:
             data = json.load(file)
-
