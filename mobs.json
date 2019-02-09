@@ -1,11 +1,9 @@
-{
-    "monster": [
-		{"name": "B", "min": 10 , "max": 20,  "critChance": 10, "critCoeff": 1.2, "description" : "Bat"},
-		{"name": " ", "min": 10 , "max": 15,  "critChance": 10, "critCoeff": 3, "description" : "Phantom"},
-		{"name": "E", "min": 0 , "max": 50,  "critChance": 50, "critCoeff": 1.5, "description" : "Emu"},
-		{"name": "H", "min": 48 , "max": 52,  "critChance": 90, "critCoeff": 1.2, "description" : "Hydre"},
-		{"name": "Z", "min": 10 , "max": 50,  "critChance": 25, "critCoeff": 2.0, "description" : "Zombie"},
-		{"name": "d", "min": 50 , "max": 100,  "critChance": 10, "critCoeff": 6, "description" : "Little Dragon"},
-		{"name": "D", "min": 80 , "max": 150,  "critChance":10 , "critCoeff": 6, "description" : "Big Dragon"}
-	]
-}
+[
+		{"symbol": "B", "min": 10 , "max": 20,  "critChance": 10, "critCoeff": 1.2, "full_name" : "Bat"},
+		{"symbol": " ", "min": 10 , "max": 15,  "critChance": 10, "critCoeff": 3, "full_name" : "Phantom"},
+		{"symbol": "E", "min": 0 , "max": 50,  "critChance": 50, "critCoeff": 1.5, "full_name" : "Emu"},
+		{"symbol": "H", "min": 48 , "max": 52,  "critChance": 90, "critCoeff": 1.2, "full_name" : "Hydre"},
+		{"symbol": "Z", "min": 10 , "max": 50,  "critChance": 25, "critCoeff": 2.0, "full_name" : "Zombie"},
+		{"symbol": "d", "min": 50 , "max": 100,  "critChance": 10, "critCoeff": 6, "full_name" : "Little Dragon"},
+		{"symbol": "D", "min": 80 , "max": 150,  "critChance":10 , "critCoeff": 6, "full_name" : "Big Dragon"}
+]
