@@ -1,0 +1,30 @@
+{
+    "weapon": [
+		{"name": "a wooden stick", "min": 10 , "max": 20,  "critChance": 2, "critCoeff": 3},
+		{"name": "a sword", "min": 50, "max": 100, "critChance": 22, "critCoeff": 1.3},
+		{"name": "a axe", "min": 60, "max": 90,  "critChance": 32, "critCoeff": 1.47},
+		{"name": "a mace", "min": 30 , "max": 150, "critChance": 25, "critCoeff": 1.2},
+		{"name": "a long sword", "min": 75 , "max": 125,  "critChance": 30, "critCoeff": 1.42},
+		{"name": "a legendary sword", "min": 90 , "max": 100,  "critChance": 15, "critCoeff": 5}
+	],
+    "gold": [
+		{"name": "One piece of gold", "min": 1, "max" : 0},
+		{"name": "Two pieces of gold", "min": 2, "max" : 0},
+		{"name": "Tree pieces of gold", "min": 3, "max" : 0},
+		{"name": "Four pieces of gold", "min": 4, "max" : 0},
+		{"name": "Five pieces of gold", "min": 5, "max" : 0},
+		{"name": "Six pieces of gold", "min": 6, "max" : 0},
+		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Two pieces of gold", "min": 1, "max" : 0},
+		{"name": "Small amount of gold", "min": 10, "max" : 20},
+		{"name": "Some gold", "min": 20, "max" : 40},
+		{"name": "Big amount of gold", "min": 40, "max" : 100},
+  	],
+  	"food": [
+		{}
+
+	]
+}
