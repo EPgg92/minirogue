@@ -36,14 +36,15 @@ def main(stdscr):
         obstacles = []
         for x in range(MAP_WIDTH):
             for y in range(MAP_HEIGHT):
-                if (x, y) in board.all:
-                    if not isinstance(board.all[(x, y)], (Tile, Door)):
+                if ((x, y) in board.all and not isinstance(board.all[(x, y)], (Tile, Door)))\
+                or (x, y) not in board.all:
                         obstacles += [(x, y)]
 
         path = path_find((mob_x, mob_y), (player_x, player_y), obstacles)
         # print(path, file=sys.stderr)
-        mob_x = path[0][0]
-        mob_y = path[0][1]
+        if len(path) > 0:
+            mob_x = path[0][0]
+            mob_y = path[0][1]
 
         win.erase()
         for _, gameObject in board.all.items():
