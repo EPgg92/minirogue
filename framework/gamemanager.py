@@ -20,7 +20,7 @@ class GameManager():
 
         self.player = Player(1, 10)
         self.player.setSym('\u263A')
-        
+
     def update(self, key):
         self.clock += 1
         self.checkCollision(key)
@@ -94,9 +94,9 @@ class GameManager():
                 self.player.attack(self.placedMobs[(x, y)])
                 if self.placedMobs[(x, y)].hp <= 0:
                     del self.placedMobs[(x, y)]
-            if not isinstance(obj, Wall):
+            if not isinstance(obj, Wall) and (x, y) not in self.placedMobs:
                 self.player.move(x, y)
-                
+
 
     # def printBoard(self):
     #     board = self.board
