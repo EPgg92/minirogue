@@ -21,10 +21,9 @@
 		{"name": "Two pieces of gold", "min": 1, "max" : 0},
 		{"name": "Small amount of gold", "min": 10, "max" : 20},
 		{"name": "Some gold", "min": 20, "max" : 40},
-		{"name": "Big amount of gold", "min": 40, "max" : 100},
+		{"name": "Big amount of gold", "min": 40, "max" : 100}
   	],
   	"food": [
 		{}
-
 	]
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import random
-import json
+import random, json
+from pprint import pprint
 
 class GameObject():
     def __init__(self, x = 0, y = 0):
@@ -165,14 +165,45 @@ class Gold(Item):
         else:
             self.amount = random.randint(amount, maxAmount)
 
-
 class GameManager():
-    def __init__():
+    def __init__(self):
         self.clock = 0
-        self.items = []
+        self.golds = []
+        self.weapons = []
+        self.foods = []
+        self.mobs = []
     
-    def update():
+    def update(self):
         self.clock += 1
-
         if self.clock >= 100:
             self.clock = 0
+
+    def loadItems(self, path):
+        with open(path) as file:
+            data = json.load(file)
+        for id in data:
+            for n in data[id]:
+                if "weapon" in id:
+                    weapon = Weapon(0, 0)
+                    weapon.setName(n["name"])
+                    weapon.setDescription(n["description"])
+                    weapon.setAtk(n["min"], n["max"])
+                    weapon.setCritChance(n["critChance"])
+                    weapon.setCritCoeff(n["critCoeff"])
+                    self.weapons.append(weapon)
+                if "gold" in id:
+                    gold = Gold(0, 0)
+                    gold.setName(n["name"])
+                    gold.setName(n["description"])
+                    gold.setAmount(n["min"], n["max"])
+                    self.golds.append(gold)
+                if "food" in id:
+                    food = Food(0, 0)
+                    food.setName(n["name"])
+                    food.setDescription(n["description"])
+                    food.setHpGiven(n["hpGiven"])
+
+    def loadEntity(self):
+        with open(path) as file:
+            data = json.load(file)
+
