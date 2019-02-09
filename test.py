@@ -94,7 +94,6 @@ class Player(LivingObject):
         if isinstance(item, Gold):
             self.gold += item.amount
 
-        
     def delItem(self, item):
         if isinstance(item, Food):
             self.foods.remove(item)
@@ -145,9 +144,9 @@ class Weapon(Item):
         self.critChance = 0 # 0-100
         self.critCoeff = 1.5
 
-    def setAtk(self, min, max):
-        self.minAtk = min
-        self.maxAtk = max
+    def setAtk(self, minAtk, maxAtk):
+        self.minAtk = minAtk
+        self.maxAtk = maxAtk
 
     def setCritChance(self, crit):
         self.critChance = crit
@@ -159,8 +158,12 @@ class Gold(Item):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def setAmount(self, amount):
-        self.amount = amount
+    def setAmount(self, amount, maxAmount = 0):
+        if maxAmount <= 0:
+            self.amount = amount
+        else:
+            self.amount = random.randint(amount, maxAmount)
+    
 
 p = Player(0, 0)
 p2 = Player(0, 0)
