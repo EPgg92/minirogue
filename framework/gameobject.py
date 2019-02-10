@@ -171,7 +171,7 @@ class Player(LivingObject):
 		if self.weapons == [] and self.foods == []:
 			str0 += '\tYour Inventory is Empty!\n'
 		str0 += ' Your Gold: {}\n'.format(self.gold)
-		str0 += ' Your Healt: {}\n'.format(self.hp)
+		str0 += ' Your Health: {}\n'.format(self.hp)
 		return str0
 ############################################################
 
