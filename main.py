@@ -90,8 +90,8 @@ def main(stdscr):
             item = Manager.placedMobs[coord]
             item.draw(win)
 
-        for coord in Manager.moveObstacles:
-            win.addstr(coord[1], coord[0], 'U', curses.color_pair(2))
+        # for obs in Manager.moveObstacles:
+        #     win.addstr(obs.y, obs.x, 'U', curses.color_pair(2))
 
 
         win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
