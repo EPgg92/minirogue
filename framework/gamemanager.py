@@ -1,6 +1,6 @@
 from framework.gameobject import *
 from framework.board import *
-import curses, copy, sys
+import curses, copy, sys, random
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
@@ -62,6 +62,17 @@ class GameManager():
 					self.player.eat(foodlist[key])
 					break
 
+		def death(win):
+			win.clear()
+			lines = open("game_over.txt").readlines()
+			for x, line in enumerate(lines):
+				for y, c in enumerate(line):
+					win.addstr(x, y, c,curses.color_pair(random.randint(1,6)))
+			while True:
+				key = win.getkey()
+				if key == 'q':
+					sys.exit(0)
+
 		def inventory(win):
 			win.clear()
 			str0 =  self.player.__str_inventory__()
@@ -98,6 +109,9 @@ class GameManager():
 				if key in weaplist:
 					self.player.equip(weaplist[key])
 					break
+
+		if self.player.hp <= 0:
+			death(win)
 		self.clock += 1
 		if key == 'i':
 			inventory(win)
@@ -124,11 +138,6 @@ class GameManager():
 							if type(self.board.all[(xfm, yfm)]) is Tile or type(self.board.all[(xfm, yfm)]) is Door:
 								self.placedMobs[monster].move(xfm, yfm)
 		self.reset_placedMobs()
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 23b706e3bd0441c9b7ac55260c36c1222dfdeee0
 
 	def loadMonsters(self, path):
 		with open(path) as file:
