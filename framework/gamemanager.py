@@ -65,7 +65,7 @@ class GameManager():
 			if self.player.foods == []:
 				str0 += "\tOh Shit, nothing to eat! It's suck!\n"
 			else:
-				foodlist = {str(x + 1) : w for x, w in enumerate(self.player.foods)}
+				foodlist = {chr(97 + x) : w for x, w in enumerate(self.player.foods)}
 				str0 += '\n'.join(["\t{} : {}".format(x, foodlist[x].name) for x in foodlist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
