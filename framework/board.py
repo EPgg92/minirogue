@@ -83,7 +83,7 @@ class Hallway():
         self.tiles = {}
         for point in path_find(start, end, obstacles):
             tile = Tile(point[0], point[1])
-            tile.setSym("%")
+            tile.setSym("░")
             self.tiles[(point[0], point[1])] = tile
 
 class Room():
