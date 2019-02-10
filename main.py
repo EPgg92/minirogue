@@ -96,6 +96,7 @@ def main(stdscr):
                 item.draw(win)
 
             Manager.player.draw(win)
+            gui.draw()
             win.addstr(Manager.stairs[1], Manager.stairs[0], '\u25a4', curses.color_pair(1))
             win.refresh()
             text_win.refresh()
@@ -104,7 +105,6 @@ def main(stdscr):
                 break
 
             Manager.update(key, win)
-            gui.draw()
 
         board = Board()
         board.addRoom()
