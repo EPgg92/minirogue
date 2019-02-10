@@ -56,10 +56,11 @@ def main(stdscr):
 		win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
 		win.border('|', '|', '-', '-', '+', '+', '+', '+')
 		win.refresh()
-		key = win.getch()
+		key = win.getkey() # win.getch()
+		if key == '`':
+			break
 		Manager.update(key)
 	return (Manager.player)
 
 if __name__ == "__main__":
 	player = wrapper(main)
-	
