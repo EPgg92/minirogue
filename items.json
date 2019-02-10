@@ -37,5 +37,6 @@
 		{"name": "Goblin Urine", "hpGiven": -1,"description" : "Smells bad!"},
 		{"name": "Coca", "hpGiven": 0,"description" : "Enjoy!"},
 		{"name": "Fresh water", "hpGiven": 1,"description" : "Cool and refreshing"}
-	]
+	],
+	"enditem": {"name": "Golden Bals","description" : "Show your courage and please girls", "sym" : "ω"}
 }
