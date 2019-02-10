@@ -1,11 +1,7 @@
 from framework.gameobject import *
 from framework.board import *
-<<<<<<< HEAD
 from framework.gui import *
 import curses, copy, sys
-=======
-import curses, copy, sys, random
->>>>>>> acd60681f8b7830e3fcfe689d7da0f7d984993d2
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
@@ -24,6 +20,7 @@ def spawn_item(param):
 
 class GameManager():
 	def __init__(self, board, gui):
+		self.nextlvl = False
 		self.clock = 0
 		self.golds = []
 		self.weapons = []
@@ -32,8 +29,8 @@ class GameManager():
 		self.placedItems = {}
 		self.placedMobs = {}
 		self.board = board
-		self.player = Player(10, 10)
-		self.player.setSym('\u263A')
+		self.player = Player()
+		self.placePlayer()
 		self.moveObstacles = []
 		self.set_moveObstacles()
 		self.gui = gui
@@ -118,7 +115,7 @@ class GameManager():
 			if self.player.weapons == []:
 				str0 += "\tOh Shit, nothing! It's suck!\n"
 			else:
-				weaplist = {str(x + 1) : w for x, w in enumerate(self.player.weapons)}
+				weaplist = {chr(97 + x) : w for x, w in enumerate(self.player.weapons)}
 				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
@@ -130,7 +127,6 @@ class GameManager():
 				if key in weaplist:
 					self.player.equip(weaplist[key])
 					break
-
 		if self.player.hp <= 0:
 			end(win, 0)
 		if self.player.gold > 10000:
@@ -144,6 +140,8 @@ class GameManager():
 			eat(win)
 		else:
 			self.checkCollision(key)
+			if self.nextlvl:
+				return
 			self.player.regen(self.clock)
 			if self.clock >= 100:
 				self.clock = 0
@@ -164,8 +162,9 @@ class GameManager():
 		self.reset_placedMobs()
 		self.gui.setText(Text("Gold : " + str(self.player.gold), 1, 1))
 		self.gui.setText(Text("HP : " + str(self.player.hp) + "/" + str(self.player.maxHp), 16, 1))
-		self.gui.setText(Text("Level : " + str(self.player.level), 30, 1))
+		self.gui.setText(Text("Level : " + str(self.player.level), 32, 1))
 		self.gui.setText(Text("XP : " + str(self.player.xp) + "/" + str(self.player.xpMax), 45, 1))
+
 	def loadMonsters(self, path):
 		with open(path) as file:
 			data = json.load(file)
@@ -240,6 +239,8 @@ class GameManager():
 					del self.placedMobs[(x, y)]
 			if not isinstance(obj, Wall) and (x, y) not in self.placedMobs:
 				self.player.move(x, y)
+			if (x, y) == self.stairs:
+				self.nextlvl = True
 
 	def placeItem(self, number):
 		save = number
@@ -267,3 +268,26 @@ class GameManager():
 					mob = copy.deepcopy(self.mobs[spawn_item(len(self.mobs))])
 					mob.setPosition(index[0], index[1])
 					self.placedMobs[index] = mob
+
+	def placeStairs(self):
+		board = self.board
+		room = random.choice(list(board.rooms))
+		self.stairs = random.choice(list(room.tiles.keys()))
+
+	def placePlayer(self):
+		board = self.board
+		room = random.choice(list(board.rooms))
+		x, y = random.choice(list(room.tiles.keys()))
+		self.player.setPosition(x, y)
+
+	def reset(self, board):
+		self.placedItems = {}
+		self.placedMobs = {}
+		self.board = board
+		self.moveObstacles = []
+		self.set_moveObstacles()
+		self.placeItem(random.randint(3, 7))
+		self.placeMob(random.randint(1, 5))
+		self.placeStairs()
+		self.placePlayer()
+		self.nextlvl = False

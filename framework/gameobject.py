@@ -25,16 +25,8 @@ class GameObject():
 	def __init__(self, x = 0, y = 0):
 		self.x = x
 		self.y = y
-		self.color = 0
 		self.hidden = False
 		self.sym = None
-
-
-	def draw(self, win):
-		pass
-
-	def setColor(self, color):
-		self.color = color
 
 	def setSym(self, sym):
 		self.sym = sym
@@ -134,13 +126,13 @@ class Player(LivingObject, Level):
 	def __init__(self, x = 0, y = 0):
 		LivingObject.__init__(self, x, y)
 		Level.__init__(self)
+		self.setSym('\u263A')
 		self.gold = 0
 		self.foods = []
 		self.weapons = []
 		self.setHp(500 + self.getlvl(1)[0])
 		self.setMaxHp(self.hp)
-		self.setDamage(25)
-		self.setColor(0xFF0000)
+		self.setDamage(30)
 		self.level = 1
 		self.equippedWeapon = None
 		self.xp = 0
@@ -154,6 +146,9 @@ class Player(LivingObject, Level):
 		if isinstance(item, Food):
 			self.foods.append(item)
 		if isinstance(item, Weapon):
+			for i in self.weapons:
+				if i.name == item.name:
+					return
 			self.weapons.append(item)
 		if isinstance(item, Gold):
 			self.gold += item.amount

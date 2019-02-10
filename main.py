@@ -70,41 +70,48 @@ def main(stdscr):
     roomB = Room(50, 60, 10, 10, [doorB])
 
     board = Board([roomA, roomB], [(doorA, doorB)])
-    #board = procedural_gen()
 
     gui = Gui(win)
     Manager = GameManager(board, gui)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
-    Manager.placeItem(25)
-    Manager.placeMob(7)
-
+    Manager.placeItem(4)
+    Manager.placeMob(10)
+    Manager.placeStairs()
     while True:
-        win.erase()
+        while Manager.nextlvl == False:
+            win.erase()
 
-        for _, gameObject in board.all.items():
-            win.addstr(gameObject.y, gameObject.x, gameObject.sym)
+            for _, gameObject in board.all.items():
+                win.addstr(gameObject.y, gameObject.x, gameObject.sym)
 
-        for coord in Manager.placedItems:
-            item = Manager.placedItems[coord]
-            item.draw(win)
+            for coord in Manager.placedItems:
+                item = Manager.placedItems[coord]
+                item.draw(win)
 
-        for coord in Manager.placedMobs:
-            item = Manager.placedMobs[coord]
-            item.draw(win)
+            for coord in Manager.placedMobs:
+                item = Manager.placedMobs[coord]
+                item.draw(win)
 
-        Manager.player.draw(win)
-        gui.draw()
-        win.box()
-        # win.redrawwin()
-        win.refresh()
-        key = win.getkey() # win.getch()
-        if key == '`':
-            break
-        Manager.update(key, win)
-    return (Manager.player)
+            win.addstr(Manager.stairs[1], Manager.stairs[0], '\u25a4', curses.color_pair(1))
+
+            Manager.player.draw(win)
+            gui.draw()
+            win.box()
+            # win.redrawwin()
+            win.refresh()
+            key = win.getkey() # win.getch()
+            if key == '`':
+                break
+            Manager.update(key, win)
+        doorA = Door(19, 40)
+        doorB = Door(55, 60)
+
+        roomA = Room(1, 1, 30, 40, [doorA])
+        roomB = Room(50, 60, 10, 10, [doorB])
+
+        board = Board([roomA, roomB], [(doorA, doorB)])
+        Manager.reset(board)
 
 if __name__ == "__main__":
     player = wrapper(main)
-    print(player.__str_inventory__())
-    #procedural_gen()
