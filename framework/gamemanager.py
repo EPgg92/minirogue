@@ -1,12 +1,13 @@
 from framework.gameobject import *
 from framework.board import *
+from framework.gui import *
 import curses, copy, sys
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
 
 class GameManager():
-	def __init__(self, board):
+	def __init__(self, board, gui):
 		self.clock = 0
 		self.golds = []
 		self.weapons = []
@@ -19,6 +20,8 @@ class GameManager():
 		self.player.setSym('\u263A')
 		self.moveObstacles = []
 		self.set_moveObstacles()
+		self.gui = gui
+		
 
 	def reset_placedMobs(self):
 		self.placedMobs = {self.placedMobs[k].getPosition() : self.placedMobs[k] for k in self.placedMobs}
@@ -93,7 +96,8 @@ class GameManager():
 			if abs(coord_player[0] - monster[0]) <= 5 and abs(coord_player[1] - monster[1]) <= 5:
 				xfm, yfm = (0, 0)
 				if self.mobIsNear(self.placedMobs[monster], 1):
-					self.placedMobs[monster].attack(self.player)
+					dmg = self.placedMobs[monster].attack(self.player)
+					self.gui.setText(Text(self.placedMobs[monster].name + " hit you for " + str(dmg) + " damages.", 1, 2))
 				else:
 					path = path_find(monster, coord_player, self.moveObstacles)
 					if len(path) > 0:
@@ -102,7 +106,10 @@ class GameManager():
 							if type(self.board.all[(xfm, yfm)]) is Tile or type(self.board.all[(xfm, yfm)]) is Door:
 								self.placedMobs[monster].move(xfm, yfm)
 		self.reset_placedMobs()
-
+		self.gui.setText(Text("Gold : " + str(self.player.gold), 1, 1))
+		self.gui.setText(Text("HP : " + str(self.player.hp) + "/" + str(self.player.maxHp), 16, 1))
+		self.gui.setText(Text("Level : " + str(self.player.level), 30, 1))
+		self.gui.setText(Text("XP : " + str(self.player.xp) + "/" + str(self.player.xpMax), 45, 1))
 	def loadMonsters(self, path):
 		with open(path) as file:
 			data = json.load(file)
@@ -114,6 +121,7 @@ class GameManager():
 			monster.setCritChance(d["critChance"])
 			monster.setName(d["name"])
 			monster.setHp(d["hp"])
+			monster.setXpGiven(d["xp"])
 			monster.updateDamage()
 			self.mobs.append(monster)
 
@@ -165,9 +173,11 @@ class GameManager():
 			obj = self.board.all[(x, y)]
 			if (x, y) in self.placedItems:
 				self.player.addItem(self.placedItems[(x, y)])
+				self.gui.setText(Text("you picked: " + self.placedItems[(x, y)].name + ".", 1, 3))
 				del self.placedItems[(x, y)]
 			elif (x, y) in self.placedMobs:
-				self.player.attack(self.placedMobs[(x, y)])
+				dmg = self.player.attack(self.placedMobs[(x, y)])
+				self.gui.setText(Text("you hit " + self.placedMobs[(x, y)].name + " for " + str(dmg) + " damages.", 1, 3))
 				if self.placedMobs[(x, y)].hp <= 0:
 					del self.placedMobs[(x, y)]
 			if not isinstance(obj, Wall) and (x, y) not in self.placedMobs:

@@ -4,6 +4,7 @@ from curses import wrapper
 from framework.gameobject import *
 from framework.board import *
 from framework.gamemanager import *
+from framework.gui import *
 import curses
 import sys
 import random
@@ -71,11 +72,13 @@ def main(stdscr):
     board = Board([roomA, roomB], [(doorA, doorB)])
     #board = procedural_gen()
 
-    Manager = GameManager(board)
+    gui = Gui(win)
+    Manager = GameManager(board, gui)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
-    Manager.placeItem(5)
-    Manager.placeMob(3)
+    Manager.placeItem(25)
+    Manager.placeMob(7)
+
     while True:
         win.erase()
 
@@ -90,11 +93,8 @@ def main(stdscr):
             item = Manager.placedMobs[coord]
             item.draw(win)
 
-        # for obs in Manager.moveObstacles:
-        #     win.addstr(obs.y, obs.x, 'U', curses.color_pair(2))
-
-
-        win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
+        Manager.player.draw(win)
+        gui.draw()
         win.box()
         # win.redrawwin()
         win.refresh()

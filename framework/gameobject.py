@@ -1,7 +1,25 @@
 #!/usr/bin/env python3
 # coding: utf-8
-import random, json, curses
+import random, json, curses, math
 from pprint import pprint
+
+class Level():
+    def __init__(self):
+        self.d = []
+        lvl = 1
+        coeff = 1.0
+        while lvl < 51:
+            if lvl % 10 == 0:
+                coeff += 1
+            log = 100 * math.pow(1.05, lvl)
+            hp, xp = (int(log), int(log * coeff))
+            self.d.append((hp, xp))
+            lvl += 1
+
+    def getlvl(self, lvl):
+        return self.d[lvl - 1]
+
+###########################################################
 
 class GameObject():
 	def __init__(self, x = 0, y = 0):
@@ -52,6 +70,7 @@ class LivingObject(GameObject):
 
 	def attack(self, livingObject):
 		livingObject.modifyHp(-self.damage)
+		return self.damage
 
 	def modifyHp(self, hp):
 		self.hp += hp
@@ -71,8 +90,6 @@ class LivingObject(GameObject):
 	def setDamage(self, damage):
 		self.damage = damage
 
-	def setLevel(self, level):
-		self.level = level
 ############################################################
 
 
@@ -100,6 +117,9 @@ class Monster(LivingObject):
 	def setName(self, name):
 		self.name = name
 
+	def setXpGiven(self, xp):
+		self.xp = xp
+
 	def move(self, x, y):
 		self.updateDamage()
 		self.setPosition(x, y)
@@ -110,18 +130,21 @@ class Monster(LivingObject):
 
 ############################################################
 
-class Player(LivingObject):
+class Player(LivingObject, Level):
 	def __init__(self, x = 0, y = 0):
-		super().__init__(x, y)
+		LivingObject.__init__(self, x, y)
+		Level.__init__(self)
 		self.gold = 0
 		self.foods = []
 		self.weapons = []
-		self.setHp(30)
-		self.setMaxHp(30)
-		self.setDamage(10)
+		self.setHp(500 + self.getlvl(1)[0])
+		self.setMaxHp(self.hp)
+		self.setDamage(25)
 		self.setColor(0xFF0000)
-		self.setLevel(1)
+		self.level = 1
 		self.equippedWeapon = None
+		self.xp = 0
+		self.xpMax = self.getlvl(1)[1]
 
 	def eat(self, food):
 		self.modifyHp(food.hp)
@@ -154,7 +177,20 @@ class Player(LivingObject):
 			rand = random.randint(0, 100)
 			if self.equippedWeapon.critChance >= rand:
 				dmg *= self.equippedWeapon.critCoeff
-		livingObject.modifyHp(-int(round(dmg)))
+		dmg = int(round(dmg))
+		livingObject.modifyHp(-dmg)
+		if livingObject.hp <= 0:
+			self.levelUp(livingObject.xp)
+		return dmg
+
+	def levelUp(self, xp):
+		self.xp += xp
+		if self.xp >= self.xpMax:
+			self.level += 1
+			newlevel = self.getlvl(self.level)
+			self.xp = 0
+			self.xpMax = newlevel[1]
+			self.setHp(self.maxHp + newlevel[0])
 
 	def regen(self, clock):
 		if clock % 20 == 0:
