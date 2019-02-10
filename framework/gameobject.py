@@ -28,6 +28,9 @@ class GameObject():
 		self.x = x
 		self.y = y
 
+	def getPosition(self):
+		return (self.x, self.y)
+
 	def isHidden(self):
 		return self.hidden
 
