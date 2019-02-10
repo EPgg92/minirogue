@@ -1,6 +1,6 @@
 from framework.gameobject import *
 from framework.board import *
-import curses, copy
+import curses, copy, sys
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
@@ -17,6 +17,16 @@ class GameManager():
 		self.board = board
 		self.player = Player(10, 10)
 		self.player.setSym('\u263A')
+		self.moveObstacles = []
+
+	def set_moveObstacles (self, arg):
+		for x in range(MAP_WIDTH):
+			for y in range(MAP_HEIGHT):
+				if (x, y) in self.board.all():
+					if type(self.board.all()[(x,y)]) is Wall:
+						self.moveObstacles.append((x,y))
+				else :
+					self.moveObstacles.append((x,y))
 
 	def update(self, key, win):
 		def inventory(win):
@@ -65,6 +75,19 @@ class GameManager():
 			self.player.regen(self.clock)
 			if self.clock >= 100:
 				self.clock = 0
+		coord_player = self.player.getPosition()
+		for monster in self.placedMobs:
+			xfm, yfm = (0 ,0)
+			path = path_find(monster, coord_player, self.moveObstacles)
+			if len(path) > 0:
+				xfm, yfm = path[0]
+			if coord_player == (xfm, yfm) or (0, 0) == (xfm, yfm) :
+				self.placedMobs[monster].attack(self.player)
+			elif (xfm, yfm) in self.placedMobs:
+				self.placedMobs[monster].attack(self.placedMobs[(xfm, yfm)])
+			else:
+				self.placedMobs[monster].move(xfm, yfm)
+
 
 	def loadMonsters(self, path):
 		with open(path) as file:
