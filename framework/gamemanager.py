@@ -41,6 +41,26 @@ class GameManager():
 		return False
 
 	def update(self, key, win):
+		def eat(win):
+			win.clear()
+			str0 = "Your Food:\n"
+			foodlist = {}
+			if self.player.foods == []:
+				str0 += "\tOh Shit, nothing to eat! It's suck!\n"
+			else:
+				foodlist = {str(x + 1) : w for x, w in enumerate(self.player.foods)}
+				str0 += '\n'.join(["\t{} : {}".format(x, foodlist[x].name) for x in foodlist])
+				str0 += '\n'
+			win.addstr(1, 1, str0)
+			win.refresh()
+			while True:
+				key = win.getkey()
+				if key == 'q':
+					break
+				if key in foodlist:
+					self.player.eat(foodlist[key])
+					break
+
 		def inventory(win):
 			win.clear()
 			str0 =  self.player.__str_inventory__()
@@ -82,6 +102,8 @@ class GameManager():
 			inventory(win)
 		elif key == 'u':
 			armyourself(win)
+		elif key == 'y':
+			eat(win)
 		else:
 			self.checkCollision(key)
 			self.player.regen(self.clock)
@@ -101,7 +123,7 @@ class GameManager():
 							if type(self.board.all[(xfm, yfm)]) is Tile or  type(self.board.all[(xfm, yfm)]) is Door:
 								self.placedMobs[monster].move(xfm, yfm)
 		self.reset_placedMobs()
-						
+
 
 
 	def loadMonsters(self, path):

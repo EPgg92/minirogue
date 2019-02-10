@@ -124,7 +124,7 @@ class Player(LivingObject):
 		self.equippedWeapon = None
 
 	def eat(self, food):
-		self.modifyHp(food.hp)
+		self.modifyHp(food.hpGiven)
 		self.delItem(food)
 
 	def addItem(self, item):
