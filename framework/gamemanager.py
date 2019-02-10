@@ -5,6 +5,18 @@ import curses, copy, sys, random
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
 
+
+def spawn_item(param):
+	item = []
+	copy = param
+	x = 0
+	while (x < param):
+		copy -= 1
+		for i in range(copy, param):
+			item.append(copy)
+		x += 1
+	return random.choice(item)
+
 class GameManager():
 	def __init__(self, board):
 		self.clock = 0
@@ -225,7 +237,7 @@ class GameManager():
 				if tiles[index]:
 					number -= 1
 					dict_item = random.choice([self.golds, self.weapons, self.foods])
-					item = copy.deepcopy(dict_item[random.randint(0, len(dict_item) - 1)])
+					item = copy.deepcopy(dict_item[spawn_item(len(dict_item))])
 					item.setPosition(index[0], index[1])
 					self.placedItems[index] = item
 
@@ -238,6 +250,6 @@ class GameManager():
 				index = random.choice(list(tiles.keys()))
 				if tiles[index]:
 					number -= 1
-					mob = copy.deepcopy(self.mobs[random.randint(0, len(self.mobs) - 1)])
+					mob = copy.deepcopy(self.mobs[spawn_item(len(self.mobs))])
 					mob.setPosition(index[0], index[1])
 					self.placedMobs[index] = mob
