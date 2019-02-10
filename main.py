@@ -19,7 +19,7 @@ def procedural_gen():
         for y in range(3):
             rooms[i] = Room(x * w_max + 3, y * h_max + 3, random.randint(3,w_max - 1),random.randint(3, h_max - 1), [])
             i += 1
-            i = 0
+    i = 0
     for link in room_link:
         curr = rooms[i]
         suiv = rooms[i + 1]
@@ -31,17 +31,17 @@ def procedural_gen():
         x, y = (curr.x,0)
         while (x == curr.x or x == curr.width or curr.y == y or curr.height == y):
             x , y = random.choice(list(curr.walls))
-            l_curr.setPosition(x, y)
-            curr.doors[l_curr.x, l_curr.y] = l_curr
+        l_curr.setPosition(x, y)
+        curr.doors[l_curr.x, l_curr.y] = l_curr
 
         x, y = (suiv.x,0)
         while (x == suiv.x or x == suiv.width or suiv.y == y or suiv.height == y):
             x , y = random.choice(list(suiv.walls))
-            l_suiv.setPosition(x, y)
-            suiv.doors[l_suiv.x, l_suiv.y] = l_suiv
-            i+=1
+        l_suiv.setPosition(x, y)
+        suiv.doors[l_suiv.x, l_suiv.y] = l_suiv
+        i+=1
     return Board([rooms[x] for x in rooms], [])
-#return Board([rooms[x] for x in rooms], room_link)
+	#return Board([rooms[x] for x in rooms], room_link)
 
 def main(stdscr):
     stdscr.clear()
