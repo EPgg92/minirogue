@@ -62,9 +62,12 @@ class GameManager():
 					self.player.eat(foodlist[key])
 					break
 
-		def death(win):
+		def end(win, goodorbad):
 			win.clear()
-			lines = open("game_over.txt").readlines()
+			if goodorbad:
+				lines = open("game_won.txt").readlines()
+			else:
+				lines = open("game_over.txt").readlines()
 			for x, line in enumerate(lines):
 				for y, c in enumerate(line):
 					win.addstr(x, y, c,curses.color_pair(random.randint(1,6)))
@@ -100,7 +103,6 @@ class GameManager():
 				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
-			#win.addstr(MAP_HEIGHT -1, 1, " Press 'q' to quit this menu or \npress a weapon number")
 			win.refresh()
 			while True:
 				key = win.getkey()
@@ -111,7 +113,9 @@ class GameManager():
 					break
 
 		if self.player.hp <= 0:
-			death(win)
+			end(win, 0)
+		if self.player.gold > 10000:
+			end(win, 1)
 		self.clock += 1
 		if key == 'i':
 			inventory(win)
@@ -173,6 +177,8 @@ class GameManager():
 					gold.setDescription(n["description"])
 					gold.setAmount(n["min"], n["max"])
 					gold.setSym('$')
+					if gold.name == "GOLDEN BALLS":
+						gold.setSym(n["description"])
 					self.golds.append(gold)
 				if "food" in id:
 					food = Food(0, 0)

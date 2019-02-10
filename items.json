@@ -21,7 +21,8 @@
 		{"name": "101 pieces of gold", "min": 101, "max" : 0,"description" : ""},
 		{"name": "Small amount of gold", "min": 10, "max" : 20,"description" : ""},
 		{"name": "Some gold", "min": 20, "max" : 40,"description" : ""},
-		{"name": "Big amount of gold", "min": 40, "max" : 100,"description" : ""}
+		{"name": "Big amount of gold", "min": 40, "max" : 100,"description" : ""},
+		{"name": "GOLDEN BALLS", "min": 100000, "max" : 100000,"description" : "ω"}
   	],
   	"food": [
 		{"name": "Apple", "hpGiven": 12,"description" : "yummy fruit!"},
@@ -37,6 +38,5 @@
 		{"name": "Goblin Urine", "hpGiven": -1,"description" : "Smells bad!"},
 		{"name": "Coca", "hpGiven": 0,"description" : "Enjoy!"},
 		{"name": "Fresh water", "hpGiven": 1,"description" : "Cool and refreshing"}
-	],
-	"enditem": {"name": "Golden Bals","description" : "Show your courage and please girls", "sym" : "ω"}
+	]
 }
