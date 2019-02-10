@@ -71,7 +71,6 @@ def main(stdscr):
     board.connectRooms()
 
     text_win = curses.newwin(5, MAP_WIDTH, 0, 0)
-    text_win.box()
     gui = Gui(text_win)
     Manager = GameManager(board, gui)
     Manager.loadItems('items.json')

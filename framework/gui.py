@@ -13,6 +13,8 @@ class Gui():
         self.texts = []
 
     def draw(self):
+        self.win.erase()
+        self.win.box()
         for text in self.texts:
             self.win.addstr(text.y, text.x, text.value)
         self.texts.clear()
