@@ -3,7 +3,7 @@ from framework.board import *
 import curses
 
 MAP_HEIGHT = 75
-MAP_WIDTH = 75
+MAP_WIDTH = 100
 
 class GameManager():
     def __init__(self, board):
@@ -18,7 +18,9 @@ class GameManager():
         self.placedMobs = {}
         self.board = board
 
-        self.player = Player(1, 10)
+		# x , y = (0,)
+
+        self.player = Player( 10, 10)
         self.player.setSym('\u263A')
 
     def update(self, key):
@@ -74,16 +76,16 @@ class GameManager():
         x = self.player.x
         y = self.player.y
         if key == curses.KEY_LEFT:
-            if self.player.x > 1:
+            if x > 1:
                 x -= 1
         elif key == curses.KEY_RIGHT:
-            if self.player.x < MAP_WIDTH - 2:
+            if x < MAP_WIDTH - 2:
                 x += 1
         elif key == curses.KEY_UP:
-            if self.player.y > 1:
+            if y > 1:
                 y -= 1
         elif key == curses.KEY_DOWN:
-            if self.player.y < MAP_HEIGHT - 2:
+            if y < MAP_HEIGHT - 2:
                 y += 1
         if (x, y) in self.board.all:
             obj = self.board.all[(x, y)]
