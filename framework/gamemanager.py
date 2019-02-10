@@ -1,10 +1,26 @@
 from framework.gameobject import *
 from framework.board import *
+<<<<<<< HEAD
 from framework.gui import *
 import curses, copy, sys
+=======
+import curses, copy, sys, random
+>>>>>>> acd60681f8b7830e3fcfe689d7da0f7d984993d2
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
+
+
+def spawn_item(param):
+	item = []
+	copy = param
+	x = 0
+	while (x < param):
+		copy -= 1
+		for i in range(copy, param):
+			item.append(copy)
+		x += 1
+	return random.choice(item)
 
 class GameManager():
 	def __init__(self, board, gui):
@@ -45,6 +61,40 @@ class GameManager():
 		return False
 
 	def update(self, key, win):
+		def eat(win):
+			win.clear()
+			str0 = "Your Food:\n"
+			foodlist = {}
+			if self.player.foods == []:
+				str0 += "\tOh Shit, nothing to eat! It's suck!\n"
+			else:
+				foodlist = {str(x + 1) : w for x, w in enumerate(self.player.foods)}
+				str0 += '\n'.join(["\t{} : {}".format(x, foodlist[x].name) for x in foodlist])
+				str0 += '\n'
+			win.addstr(1, 1, str0)
+			win.refresh()
+			while True:
+				key = win.getkey()
+				if key == 'q':
+					break
+				if key in foodlist:
+					self.player.eat(foodlist[key])
+					break
+
+		def end(win, goodorbad):
+			win.clear()
+			if goodorbad:
+				lines = open("game_won.txt").readlines()
+			else:
+				lines = open("game_over.txt").readlines()
+			for x, line in enumerate(lines):
+				for y, c in enumerate(line):
+					win.addstr(x, y, c,curses.color_pair(random.randint(1,6)))
+			while True:
+				key = win.getkey()
+				if key == 'q':
+					sys.exit(0)
+
 		def inventory(win):
 			win.clear()
 			str0 =  self.player.__str_inventory__()
@@ -72,7 +122,6 @@ class GameManager():
 				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
-			#win.addstr(MAP_HEIGHT -1, 1, " Press 'q' to quit this menu or \npress a weapon number")
 			win.refresh()
 			while True:
 				key = win.getkey()
@@ -81,11 +130,18 @@ class GameManager():
 				if key in weaplist:
 					self.player.equip(weaplist[key])
 					break
+
+		if self.player.hp <= 0:
+			end(win, 0)
+		if self.player.gold > 10000:
+			end(win, 1)
 		self.clock += 1
 		if key == 'i':
 			inventory(win)
 		elif key == 'u':
 			armyourself(win)
+		elif key == 'y':
+			eat(win)
 		else:
 			self.checkCollision(key)
 			self.player.regen(self.clock)
@@ -145,6 +201,8 @@ class GameManager():
 					gold.setDescription(n["description"])
 					gold.setAmount(n["min"], n["max"])
 					gold.setSym('$')
+					if gold.name == "GOLDEN BALLS":
+						gold.setSym(n["description"])
 					self.golds.append(gold)
 				if "food" in id:
 					food = Food(0, 0)
@@ -193,7 +251,7 @@ class GameManager():
 				if tiles[index]:
 					number -= 1
 					dict_item = random.choice([self.golds, self.weapons, self.foods])
-					item = copy.deepcopy(dict_item[random.randint(0, len(dict_item) - 1)])
+					item = copy.deepcopy(dict_item[spawn_item(len(dict_item))])
 					item.setPosition(index[0], index[1])
 					self.placedItems[index] = item
 
@@ -206,6 +264,6 @@ class GameManager():
 				index = random.choice(list(tiles.keys()))
 				if tiles[index]:
 					number -= 1
-					mob = copy.deepcopy(self.mobs[random.randint(0, len(self.mobs) - 1)])
+					mob = copy.deepcopy(self.mobs[spawn_item(len(self.mobs))])
 					mob.setPosition(index[0], index[1])
 					self.placedMobs[index] = mob

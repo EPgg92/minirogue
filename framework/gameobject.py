@@ -147,7 +147,7 @@ class Player(LivingObject, Level):
 		self.xpMax = self.getlvl(1)[1]
 
 	def eat(self, food):
-		self.modifyHp(food.hp)
+		self.modifyHp(food.hpGiven)
 		self.delItem(food)
 
 	def addItem(self, item):
