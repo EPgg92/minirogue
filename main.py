@@ -55,11 +55,12 @@ def main(stdscr):
 
 		win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
 		win.border('|', '|', '-', '-', '+', '+', '+', '+')
+		win.redrawwin()
 		win.refresh()
 		key = win.getkey() # win.getch()
 		if key == '`':
 			break
-		Manager.update(key)
+		Manager.update(key, win)
 	return (Manager.player)
 
 if __name__ == "__main__":

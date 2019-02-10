@@ -18,12 +18,22 @@ class GameManager():
 		self.player = Player(10, 10)
 		self.player.setSym('\u263A')
 
-	def update(self, key):
+	def update(self, key, win):
 		self.clock += 1
-		self.checkCollision(key)
-		self.player.regen(self.clock)
-		if self.clock >= 100:
-			self.clock = 0
+		if key == 'i':
+			win.clear()
+			win.addstr(1, 1, self.player.__str_inventory__())
+			win.addstr(15, 1, " Press 'q' to quit this menu")
+			win.border('|', '|', '-', '-', '+', '+', '+', '+')
+			win.refresh()
+			while True:
+				if win.getkey() == 'q':
+					break
+		else:
+			self.checkCollision(key)
+			self.player.regen(self.clock)
+			if self.clock >= 100:
+				self.clock = 0
 
 	def loadMonsters(self, path):
 		with open(path) as file:

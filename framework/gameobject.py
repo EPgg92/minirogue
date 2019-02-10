@@ -155,8 +155,10 @@ class Player(LivingObject):
 		if self.weapons != []:
 			str0 += '\n'.join(['\tWeapons:']+["\t\t{} : {}".format(x.name, x.description) for x in self.weapons])
 			str0 += '\n'
-		str0 += 'Your Gold: {}\n'.format(self.gold)
-		str0 += 'Your Healt: {}\n'.format(self.hp)
+		if self.weapons == [] and self.foods == []:
+			str0 += '\tYour Inventory is Empty!\n'
+		str0 += ' Your Gold: {}\n'.format(self.gold)
+		str0 += ' Your Healt: {}\n'.format(self.hp)
 		return str0
 ############################################################
 
