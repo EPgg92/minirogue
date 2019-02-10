@@ -71,16 +71,16 @@ class GameManager():
 	def checkCollision(self, key):
 		x = self.player.x
 		y = self.player.y
-		if key == curses.KEY_LEFT:
+		if key == 'a': # curses.KEY_LEFT:
 			if x > 1:
 				x -= 1
-		elif key == curses.KEY_RIGHT:
+		elif key == 'd': #curses.KEY_RIGHT:
 			if x < MAP_WIDTH - 2:
 				x += 1
-		elif key == curses.KEY_UP:
+		elif key == 'w': #curses.KEY_UP:
 			if y > 1:
 				y -= 1
-		elif key == curses.KEY_DOWN:
+		elif key == 's': #curses.KEY_DOWN:
 			if y < MAP_HEIGHT - 2:
 				y += 1
 		if (x, y) in self.board.all:
