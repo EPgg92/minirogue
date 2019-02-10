@@ -38,6 +38,7 @@ class GameManager():
 			else:
 				str0 += "\t" + self.player.equippedWeapon.name + '\n'
 			str0 += ' Owned Weapons to equip:\n'
+			weaplist = {}
 			if self.player.weapons == []:
 				str0 += "\tOh Shit, nothing! It's suck!\n"
 			else:
