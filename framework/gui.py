@@ -1,6 +1,8 @@
 from framework.gameobject import *
 import curses
 
+# wouesh ptit comment pour le merge :P
+
 class Text():
     def __init__(self, text, x, y):
         self.value = str(text)
@@ -45,4 +47,3 @@ class Gui():
 
     def setText(self, text):
         self.texts.append(text)
-
