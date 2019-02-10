@@ -1,6 +1,6 @@
 from framework.gameobject import *
 from framework.board import *
-import curses
+import curses, copy
 
 MAP_HEIGHT = 75
 MAP_WIDTH = 100
@@ -115,7 +115,7 @@ class GameManager():
 				if tiles[index]:
 					number -= 1
 					dict_item = random.choice([self.golds, self.weapons, self.foods])
-					item = dict_item[random.randint(0, len(dict_item) - 1)]
+					item = copy.deepcopy(dict_item[random.randint(0, len(dict_item) - 1)])
 					item.setPosition(index[0], index[1])
 					self.placedItems[index] = item
 
@@ -128,6 +128,6 @@ class GameManager():
 				index = random.choice(list(tiles.keys()))
 				if tiles[index]:
 					number -= 1
-					mob = self.mobs[random.randint(0, len(self.mobs) - 1)]
+					mob = copy.deepcopy(self.mobs[random.randint(0, len(self.mobs) - 1)])
 					mob.setPosition(index[0], index[1])
 					self.placedMobs[index] = mob
