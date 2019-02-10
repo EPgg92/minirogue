@@ -64,3 +64,4 @@ def main(stdscr):
 
 if __name__ == "__main__":
 	player = wrapper(main)
+	print(player.__str_inventory__())

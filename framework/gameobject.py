@@ -147,6 +147,17 @@ class Player(LivingObject):
 		if clock % 20 == 0:
 			self.modifyHp(1)
 
+	def __str_inventory__(self):
+		str0 = 'Your Inventory:\n'
+		if self.foods != []:
+			str0 += '\n'.join(['\tFood:']+["\t\t{} : {}".format(x.name, x.description) for x in self.foods])
+			str0 += '\n'
+		if self.weapons != []:
+			str0 += '\n'.join(['\tWeapons:']+["\t\t{} : {}".format(x.name, x.description) for x in self.weapons])
+			str0 += '\n'
+		str0 += 'Your Gold: {}\n'.format(self.gold)
+		str0 += 'Your Healt: {}\n'.format(self.hp)
+		return str0
 ############################################################
 
 class Door(GameObject):
