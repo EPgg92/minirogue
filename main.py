@@ -37,9 +37,8 @@ def main(stdscr):
 	Manager = GameManager(board)
 	Manager.loadItems('items.json')
 	Manager.loadMonsters('mobs.json')
-	Manager.placeItem(50)
-	Manager.placeMob(2)
-   # Manager.printBoard()
+	Manager.placeItem(10)
+	Manager.placeMob(5)
 	while True:
 		win.erase()
 
@@ -59,7 +58,8 @@ def main(stdscr):
 		win.refresh()
 		key = win.getch()
 		Manager.update(key)
-
+	return (Manager.player)
 
 if __name__ == "__main__":
-	wrapper(main)
+	player = wrapper(main)
+	
