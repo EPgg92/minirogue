@@ -124,11 +124,6 @@ class GameManager():
 							if type(self.board.all[(xfm, yfm)]) is Tile or type(self.board.all[(xfm, yfm)]) is Door:
 								self.placedMobs[monster].move(xfm, yfm)
 		self.reset_placedMobs()
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 23b706e3bd0441c9b7ac55260c36c1222dfdeee0
 
 	def loadMonsters(self, path):
 		with open(path) as file:
