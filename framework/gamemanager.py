@@ -19,16 +19,46 @@ class GameManager():
 		self.player.setSym('\u263A')
 
 	def update(self, key, win):
-		self.clock += 1
-		if key == 'i':
+		def inventory(win):
 			win.clear()
-			win.addstr(1, 1, self.player.__str_inventory__())
-			win.addstr(15, 1, " Press 'q' to quit this menu")
+			str0 =  self.player.__str_inventory__()
+			win.addstr(1, 1, str0)
+			win.addstr(MAP_HEIGHT -1, 1, " Press 'q' to quit this menu")
 			win.border('|', '|', '-', '-', '+', '+', '+', '+')
 			win.refresh()
 			while True:
 				if win.getkey() == 'q':
 					break
+
+		def armyourself(win):
+			win.clear()
+			str0 = "Your equipped weapon is:\n"
+			if self.player.equippedWeapon == None:
+				str0 += "\tNothing! you are crazy\n"
+			else:
+				str0 += "\t" + self.player.equippedWeapon.name + '\n'
+			str0 += ' Owned Weapons to equip:\n'
+			if self.player.weapons == []:
+				str0 += "\tOh Shit, nothing! It's suck!\n"
+			else:
+				weaplist = {str(x + 1) : w for x, w in enumerate(self.player.weapons)}
+				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])
+				str0 += '\n'
+			win.addstr(1, 1, str0)
+			#win.addstr(MAP_HEIGHT -1, 1, " Press 'q' to quit this menu or \npress a weapon number")
+			win.refresh()
+			while True:
+				key = win.getkey()
+				if key == 'q':
+					break
+				if key in weaplist:
+					self.player.equip(weaplist[key])
+					break
+		self.clock += 1
+		if key == 'i':
+			inventory(win)
+		elif key == 'u':
+			armyourself(win)
 		else:
 			self.checkCollision(key)
 			self.player.regen(self.clock)
