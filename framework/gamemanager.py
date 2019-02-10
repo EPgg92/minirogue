@@ -18,15 +18,16 @@ class GameManager():
 		self.player = Player(10, 10)
 		self.player.setSym('\u263A')
 		self.moveObstacles = []
+		self.set_moveObstacles()
 
 	def reset_placedMobs(self):
 		self.placedMobs = {self.placedMobs[k].getPosition() : self.placedMobs[k] for k in self.placedMobs}
 
-	def set_moveObstacles (self, arg):
+	def set_moveObstacles (self):
 		for x in range(MAP_WIDTH):
 			for y in range(MAP_HEIGHT):
-				if (x, y) in self.board.all():
-					if type(self.board.all()[(x,y)]) is Wall:
+				if (x, y) in self.board.all:
+					if type(self.board.all[(x, y)]) is Wall:
 						self.moveObstacles.append((x,y))
 				else:
 					self.moveObstacles.append((x,y))
@@ -92,17 +93,15 @@ class GameManager():
 			if abs(coord_player[0] - monster[0]) <= 5 and abs(coord_player[1] - monster[1]) <= 5:
 				xfm, yfm = (0, 0)
 				if self.mobIsNear(self.placedMobs[monster], 1):
-						self.placedMobs[monster].attack(self.player)
+					self.placedMobs[monster].attack(self.player)
 				else:
 					path = path_find(monster, coord_player, self.moveObstacles)
 					if len(path) > 0:
 						xfm, yfm = path[0]
 						if 	(xfm, yfm) in self.board.all:
-							if type(self.board.all[(xfm, yfm)]) is Tile or  type(self.board.all[(xfm, yfm)]) is Door:
+							if type(self.board.all[(xfm, yfm)]) is Tile or type(self.board.all[(xfm, yfm)]) is Door:
 								self.placedMobs[monster].move(xfm, yfm)
 		self.reset_placedMobs()
-						
-
 
 	def loadMonsters(self, path):
 		with open(path) as file:
