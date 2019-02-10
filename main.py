@@ -75,8 +75,8 @@ def main(stdscr):
     Manager = GameManager(board, gui)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
-    Manager.placeItem(4)
-    Manager.placeMob(10)
+    Manager.placeItem(6)
+    Manager.placeMob(4)
     Manager.placeStairs()
     while True:
         while Manager.nextlvl == False:

@@ -34,7 +34,7 @@ class GameManager():
 		self.moveObstacles = []
 		self.set_moveObstacles()
 		self.gui = gui
-		
+
 
 	def reset_placedMobs(self):
 		self.placedMobs = {self.placedMobs[k].getPosition() : self.placedMobs[k] for k in self.placedMobs}
@@ -113,7 +113,7 @@ class GameManager():
 			str0 += ' Owned Weapons to equip:\n'
 			weaplist = {}
 			if self.player.weapons == []:
-				str0 += "\tOh Shit, nothing! It's suck!\n"
+				str0 += "\tOh Shit, nothing! It sucks!\n"
 			else:
 				weaplist = {chr(97 + x) : w for x, w in enumerate(self.player.weapons)}
 				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])

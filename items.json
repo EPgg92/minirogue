@@ -23,18 +23,18 @@
 		{"name": "GOLDEN BALLS", "min": 100000, "max" : 100000,"description" : "ω"}
   	],
   	"food": [
-		{"name": "Apple", "hpGiven": 12,"description" : "yummy fruit!"},
-		{"name": "Mango", "hpGiven": 13,"description" : "yummy fruit!"},
-		{"name": "Akward potion", "hpGiven": -9,"description" : "Smells very good!"},
-		{"name": "Akward potion", "hpGiven": 10,"description" : "Smells very bad!"},
-		{"name": "Glowing potion", "hpGiven": 100,"description" : "That will max out my health"},
+		{"name": "Apple", "hpGiven": 120,"description" : "yummy fruit!"},
+		{"name": "Mango", "hpGiven": 130,"description" : "yummy fruit!"},
+		{"name": "Akward potion", "hpGiven": -90,"description" : "Smells very good!"},
+		{"name": "Akward potion", "hpGiven": 100,"description" : "Smells very bad!"},
+		{"name": "Glowing potion", "hpGiven": 1000,"description" : "That will max out my health"},
 		{"name": "Rotten flesh", "hpGiven": -30,"description" : "Shall I eat that?!"},
-		{"name": "Pesto Pasta", "hpGiven": 20,"description" : "Seems good!"},
-		{"name": "Candy", "hpGiven": 3,"description" : "Cool Candy!"},
-		{"name": "Candy", "hpGiven": 6,"description" : "I love Candy!"},
-		{"name": "Candy", "hpGiven": 9,"description" : "Cool Candy!"},
-		{"name": "Goblin Urine", "hpGiven": -1,"description" : "Smells bad!"},
+		{"name": "Pesto Pasta", "hpGiven": 200,"description" : "Seems good!"},
+		{"name": "Candy", "hpGiven": 30,"description" : "Cool Candy!"},
+		{"name": "Candy", "hpGiven": 60,"description" : "I love Candy!"},
+		{"name": "Candy", "hpGiven": 90,"description" : "Cool Candy!"},
+		{"name": "Goblin Urine", "hpGiven": -10,"description" : "Smells bad!"},
 		{"name": "Coca", "hpGiven": 0,"description" : "Enjoy!"},
-		{"name": "Fresh water", "hpGiven": 1,"description" : "Cool and refreshing"}
+		{"name": "Fresh water", "hpGiven": 10,"description" : "Cool and refreshing"}
 	]
 }
