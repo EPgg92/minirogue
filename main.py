@@ -60,18 +60,19 @@ def main(stdscr):
     curses.init_pair(6, curses.COLOR_CYAN, 0)
     curses.init_pair(7, curses.COLOR_WHITE, curses.COLOR_WHITE)
 
-    win = curses.newwin(MAP_HEIGHT, MAP_WIDTH, WIN_Y, WIN_X)
+    win = curses.newwin(MAP_HEIGHT, MAP_WIDTH, 5, WIN_X)
     win.keypad(True)
 
-    doorA = Door(19, 40)
-    doorB = Door(55, 60)
+    board = Board()
+    board.addRoom()
+    board.addRoom()
+    board.addRoom()
+    board.addRoom()
+    board.connectRooms()
 
-    roomA = Room(1, 1, 30, 40, [doorA])
-    roomB = Room(50, 60, 10, 10, [doorB])
-
-    board = Board([roomA, roomB], [(doorA, doorB)])
-
-    gui = Gui(win)
+    text_win = curses.newwin(5, MAP_WIDTH, 0, 0)
+    text_win.box()
+    gui = Gui(text_win)
     Manager = GameManager(board, gui)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
@@ -81,6 +82,7 @@ def main(stdscr):
     while True:
         while Manager.nextlvl == False:
             win.erase()
+            win.box()
 
             for _, gameObject in board.all.items():
                 win.addstr(gameObject.y, gameObject.x, gameObject.sym)
@@ -94,23 +96,22 @@ def main(stdscr):
                 item.draw(win)
 
             win.addstr(Manager.stairs[1], Manager.stairs[0], '\u25a4', curses.color_pair(1))
-
-            Manager.player.draw(win)
-            gui.draw()
-            win.box()
-            # win.redrawwin()
             win.refresh()
-            key = win.getkey() # win.getch()
+            text_win.refresh()
+            key = win.getkey()
             if key == '`':
                 break
+
             Manager.update(key, win)
-        doorA = Door(19, 40)
-        doorB = Door(55, 60)
+            Manager.player.draw(win)
+            gui.draw()
 
-        roomA = Room(1, 1, 30, 40, [doorA])
-        roomB = Room(50, 60, 10, 10, [doorB])
-
-        board = Board([roomA, roomB], [(doorA, doorB)])
+        board = Board()
+        board.addRoom()
+        board.addRoom()
+        board.addRoom()
+        board.addRoom()
+        board.connectRooms()
         Manager.reset(board)
 
 if __name__ == "__main__":
