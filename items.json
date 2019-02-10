@@ -4,6 +4,7 @@
 		{"name": "GODLIKE WEAPON", "min": 5 , "max": 18,  "critChance": 95, "critCoeff": 1.1, "description" : "Still nerfed, I'm so sorry!"}
 		{"name": "A wooden stick", "min": 10 , "max": 20,  "critChance": 2, "critCoeff": 8,"description" : "Seems harmless"},
 		{"name": "A wooden stick", "min": 10 , "max": 20,  "critChance": 4, "critCoeff": 16,"description" : "Seems very harmless"},
+		{"name": "A wooden stick", "min": 1, "max": 1,  "critChance": 1, "critCoeff": 1,"description" : "Harmless"},
 		{"name": "A sword", "min": 50, "max": 100, "critChance": 22, "critCoeff": 1.3,"description" : "Sharp blade"},
 		{"name": "A sword", "min": 50, "max": 100, "critChance": 28, "critCoeff": 1.9,"description" : "Very Sharp blade"},
 		{"name": "An axe", "min": 60, "max": 90,  "critChance": 32, "critCoeff": 1.47,"description" : "Heavy, but useful on Goblins heads"},
