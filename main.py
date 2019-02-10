@@ -95,7 +95,8 @@ def main(stdscr):
 			item.draw(win)
 
 		win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
-		win.border('|', '|', '-', '-', '+', '+', '+', '+')
+		#═ ║ ╔ ╗ ╚ ╝ ╦ ╬ ╩ ╠ ╣
+		win.border('|', '|', '═', '-', '+', '+', '+', '+')
 		win.redrawwin()
 		win.refresh()
 		key = win.getkey() # win.getch()
