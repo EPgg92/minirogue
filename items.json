@@ -18,15 +18,19 @@
 	"gold": [
 		{"name": "One piece of gold", "min": 1, "max" : 0,"description" : ""},
 		{"name": "Two pieces of gold", "min": 2, "max" : 0,"description" : ""},
+		{"name": "Three pieces of gold", "min": 3, "max" : 0,"description" : ""},
 		{"name": "Four pieces of gold", "min": 4, "max" : 0,"description" : ""},
+		{"name": "Five pieces of gold", "min": 6, "max" : 0,"description" : ""},
 		{"name": "Six pieces of gold", "min": 6, "max" : 0,"description" : ""},
 		{"name": "Seven pieces of gold", "min": 7, "max" : 0,"description" : ""},
 		{"name": "Eight pieces of gold", "min": 8, "max" : 0,"description" : ""},
+		{"name": "Nine pieces of gold", "min": 6, "max" : 0,"description" : ""},
 		{"name": "Fourty two pieces of gold", "min": 42, "max" : 0,"description" : ""},
 		{"name": "101 pieces of gold", "min": 101, "max" : 0,"description" : ""},
 		{"name": "Small amount of gold", "min": 10, "max" : 20,"description" : ""},
 		{"name": "Some gold", "min": 20, "max" : 40,"description" : ""},
 		{"name": "Big amount of gold", "min": 40, "max" : 100,"description" : ""},
+		{"name": "Diabolic amount of gold", "min": 666, "max" : 0,"description" : ""},
 		{"name": "GOLDEN BALLS", "min": 100000, "max" : 100000,"description" : "ω"}
   	],
   	"food": [
@@ -40,8 +44,12 @@
 		{"name": "Candy", "hpGiven": 30,"description" : "Cool Candy!"},
 		{"name": "Candy", "hpGiven": 60,"description" : "I love Candy!"},
 		{"name": "Candy", "hpGiven": 90,"description" : "Cool Candy!"},
+		{"name": "Candy", "hpGiven": 120,"description" : "Sugar Candy!"},
 		{"name": "Goblin Urine", "hpGiven": -10,"description" : "Smells bad!"},
+		{"name": "Goblin Urine", "hpGiven": 1000,"description" : "Smells Good!"},
+		{"name": "Coca", "hpGiven": 100,"description" : "Enjoy!"},
 		{"name": "Coca", "hpGiven": 0,"description" : "Enjoy!"},
+		{"name": "Coca", "hpGiven": -1000,"description" : "Enjoy!"},
 		{"name": "Fresh water", "hpGiven": 10,"description" : "Cool and refreshing"}
 	]
 }

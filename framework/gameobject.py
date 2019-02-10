@@ -186,6 +186,7 @@ class Player(LivingObject, Level):
 			self.xp = 0
 			self.xpMax = newlevel[1]
 			self.setHp(self.maxHp + newlevel[0])
+			self.damage *= 1.15
 
 	def regen(self, clock):
 		if clock % 20 == 0:
