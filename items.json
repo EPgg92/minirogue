@@ -1,7 +1,7 @@
 {
 	"weapon": [
-		{"name": "GODLIKE WEAPON", "min": 7 , "max": 13,  "critChance": 90, "critCoeff": 1.2, "description" : "Sorry nerfed, too bad!"}
-		{"name": "GODLIKE WEAPON", "min": 5 , "max": 18,  "critChance": 95, "critCoeff": 1.1, "description" : "Still nerfed, I'm so sorry!"}
+		{"name": "GODLIKE WEAPON", "min": 7 , "max": 13,  "critChance": 90, "critCoeff": 1.2, "description" : "Sorry nerfed, too bad!"},
+		{"name": "GODLIKE WEAPON", "min": 5 , "max": 18,  "critChance": 95, "critCoeff": 1.1, "description" : "Still nerfed, I'm so sorry!"},
 		{"name": "A wooden stick", "min": 10 , "max": 20,  "critChance": 2, "critCoeff": 8,"description" : "Seems harmless"},
 		{"name": "A wooden stick", "min": 10 , "max": 20,  "critChance": 4, "critCoeff": 16,"description" : "Seems very harmless"},
 		{"name": "A wooden stick", "min": 1, "max": 1,  "critChance": 1, "critCoeff": 1,"description" : "Harmless"},
