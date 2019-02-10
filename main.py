@@ -55,10 +55,14 @@ def main(stdscr):
 	stdscr.clear()
 	if curses.COLS < MAP_WIDTH - 1 or curses.LINES < MAP_HEIGHT - 1:
 		return (64)
-	curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
-	curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 	curses.curs_set(0)
+	curses.init_pair(1, curses.COLOR_GREEN, 0)
+	curses.init_pair(2, curses.COLOR_RED, 0)
+	curses.init_pair(3, curses.COLOR_YELLOW, 0)
+	curses.init_pair(4, curses.COLOR_BLUE, 0)
+	curses.init_pair(5, curses.COLOR_MAGENTA, 0)
+	curses.init_pair(6, curses.COLOR_CYAN, 0)
+	curses.init_pair(7, curses.COLOR_WHITE, curses.COLOR_WHITE)
 	win = curses.newwin(MAP_HEIGHT, MAP_WIDTH, WIN_Y, WIN_X)
 	win.keypad(True)
 	win.box()
@@ -84,11 +88,11 @@ def main(stdscr):
 
 		for coord in Manager.placedItems:
 			item = Manager.placedItems[coord]
-			win.addstr(item.y, item.x, item.sym, curses.color_pair(3))
+			item.draw(win)
 
 		for coord in Manager.placedMobs:
 			item = Manager.placedMobs[coord]
-			win.addstr(item.y, item.x, item.sym, curses.color_pair(2))
+			item.draw(win)
 
 		win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
 		win.border('|', '|', '-', '-', '+', '+', '+', '+')
