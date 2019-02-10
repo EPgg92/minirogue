@@ -19,14 +19,26 @@ class GameManager():
 		self.player.setSym('\u263A')
 		self.moveObstacles = []
 
+	def reset_placedMobs(self):
+		self.placedMobs = {self.placedMobs[k].getPosition() : self.placedMobs[k] for k in self.placedMobs}
+
 	def set_moveObstacles (self, arg):
 		for x in range(MAP_WIDTH):
 			for y in range(MAP_HEIGHT):
 				if (x, y) in self.board.all():
 					if type(self.board.all()[(x,y)]) is Wall:
 						self.moveObstacles.append((x,y))
-				else :
+				else:
 					self.moveObstacles.append((x,y))
+
+	def mobIsNear(self, monster, dist):
+		p = self.player.getPosition()
+		m = monster.getPosition()
+		if abs(p[0] - m[0]) == 0 and abs(p[1] - m[1]) == dist:
+			return True
+		if abs(p[0] - m[0]) == dist and abs(p[1] - m[1]) == 0:
+			return True
+		return False
 
 	def update(self, key, win):
 		def inventory(win):
@@ -34,7 +46,7 @@ class GameManager():
 			str0 =  self.player.__str_inventory__()
 			win.addstr(1, 1, str0)
 			win.addstr(MAP_HEIGHT -1, 1, " Press 'q' to quit this menu")
-			win.border('|', '|', '-', '-', '+', '+', '+', '+')
+			win.box()
 			win.refresh()
 			while True:
 				if win.getkey() == 'q':
@@ -77,16 +89,19 @@ class GameManager():
 				self.clock = 0
 		coord_player = self.player.getPosition()
 		for monster in self.placedMobs:
-			xfm, yfm = (0 ,0)
-			path = path_find(monster, coord_player, self.moveObstacles)
-			if len(path) > 0:
-				xfm, yfm = path[0]
-			if coord_player == (xfm, yfm) or (0, 0) == (xfm, yfm) :
-				self.placedMobs[monster].attack(self.player)
-			elif (xfm, yfm) in self.placedMobs:
-				self.placedMobs[monster].attack(self.placedMobs[(xfm, yfm)])
-			else:
-				self.placedMobs[monster].move(xfm, yfm)
+			if abs(coord_player[0] - monster[0]) <= 5 and abs(coord_player[1] - monster[1]) <= 5:
+				xfm, yfm = (0, 0)
+				if self.mobIsNear(self.placedMobs[monster], 1):
+						self.placedMobs[monster].attack(self.player)
+				else:
+					path = path_find(monster, coord_player, self.moveObstacles)
+					if len(path) > 0:
+						xfm, yfm = path[0]
+						if 	(xfm, yfm) in self.board.all:
+							if type(self.board.all[(xfm, yfm)]) is Tile or  type(self.board.all[(xfm, yfm)]) is Door:
+								self.placedMobs[monster].move(xfm, yfm)
+		self.reset_placedMobs()
+						
 
 
 	def loadMonsters(self, path):

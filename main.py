@@ -74,8 +74,8 @@ def main(stdscr):
     Manager = GameManager(board)
     Manager.loadItems('items.json')
     Manager.loadMonsters('mobs.json')
-    Manager.placeItem(10)
-    Manager.placeMob(5)
+    Manager.placeItem(5)
+    Manager.placeMob(3)
     while True:
         win.erase()
 
@@ -89,6 +89,10 @@ def main(stdscr):
         for coord in Manager.placedMobs:
             item = Manager.placedMobs[coord]
             item.draw(win)
+
+        for coord in Manager.moveObstacles:
+            win.addstr(coord[1], coord[0], 'U', curses.color_pair(2))
+
 
         win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
         win.box()
