@@ -91,8 +91,8 @@ def main(stdscr):
             item.draw(win)
 
         win.addstr(Manager.player.y, Manager.player.x, '\u263A', curses.color_pair(1))
-        # win.box()
-        win.redrawwin()
+        win.box()
+        # win.redrawwin()
         win.refresh()
         key = win.getkey() # win.getch()
         if key == '`':

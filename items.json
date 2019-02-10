@@ -28,7 +28,7 @@
 		{"name": "Mango", "hpGiven": 13,"description" : "yummy fruit!"},
 		{"name": "Akward potion", "hpGiven": -9,"description" : "Smell very good!"},
 		{"name": "Akward potion", "hpGiven": 10,"description" : "Smell very bad!"},
-		{"name": "Glowing potion", "hpGiven": 100,"description" : "That will maxed out my healt"},
+		{"name": "Glowing potion", "hpGiven": 100,"description" : "That will maxed out my health"},
 		{"name": "Rotten flesh", "hpGiven": -30,"description" : "Shall I eat that?!"},
 		{"name": "Pesto Pasta", "hpGiven": 20,"description" : "Seems good!"},
 		{"name": "Candy", "hpGiven": 3,"description" : "Cool Candy!"},
