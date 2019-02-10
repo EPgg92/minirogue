@@ -69,6 +69,7 @@ class GameManager():
 				str0 += '\n'.join(["\t{} : {}".format(x, foodlist[x].name) for x in foodlist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
+			win.box()
 			win.refresh()
 			while True:
 				key = win.getkey()
@@ -119,6 +120,7 @@ class GameManager():
 				str0 += '\n'.join(["\t{} : {}".format(x, weaplist[x].name) for x in weaplist])
 				str0 += '\n'
 			win.addstr(1, 1, str0)
+			win.box()
 			win.refresh()
 			while True:
 				key = win.getkey()
