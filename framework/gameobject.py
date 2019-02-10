@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
-import random, json
+import random, json, curses
 from pprint import pprint
 
 class GameObject():
@@ -10,6 +10,10 @@ class GameObject():
 		self.color = 0
 		self.hidden = False
 		self.sym = None
+
+
+	def draw(self, win):
+		pass
 
 	def setColor(self, color):
 		self.color = color
@@ -97,6 +101,9 @@ class Monster(LivingObject):
 		self.updateDamage()
 		self.setPosition(x, y)
 
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(2))
+
 
 ############################################################
 
@@ -132,6 +139,9 @@ class Player(LivingObject):
 			self.weapons.remove(item)
 
 	def equip(self, item):
+		self.weapons.remove(item)
+		if self.equippedWeapon != None:
+			self.weapons.append(self.equippedWeapon)
 		self.equippedWeapon = item
 
 	def attack(self, livingObject):
@@ -146,6 +156,9 @@ class Player(LivingObject):
 	def regen(self, clock):
 		if clock % 20 == 0:
 			self.modifyHp(1)
+
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(1))
 
 	def __str_inventory__(self):
 		str0 = 'Your Inventory:\n'
@@ -166,20 +179,26 @@ class Door(GameObject):
 	def __init__(self, x, y, sym = "+"):
 		super().__init__(x, y)
 		self.sym = sym
-
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(6))
 ############################################################
 
 class Tile(GameObject):
-	def __init__(self, x, y, sym = "-"):
+	def __init__(self, x, y, sym = "·"):
 		super().__init__(x, y)
 		self.sym = sym
+
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(6))
 
 ############################################################
 
 class Wall(GameObject):
-	def __init__(self, x, y, sym = "#"):
+	def __init__(self, x, y, sym = "█"):
 		super().__init__(x, y)
 		self.sym = sym
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(7))
 
 ############################################################
 
@@ -204,6 +223,9 @@ class Food(Item):
 	def setHpGiven(self, hp):
 		self.hpGiven = hp
 
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(5))
+
 ############################################################
 
 class Weapon(Item):
@@ -222,6 +244,9 @@ class Weapon(Item):
 	def setCritCoeff(self, critCoeff):
 		self.critCoeff = critCoeff
 
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(4))
+
 ############################################################
 
 class Gold(Item):
@@ -233,5 +258,8 @@ class Gold(Item):
 			self.amount = amount
 		else:
 			self.amount = random.randint(amount, maxAmount)
+
+	def draw(self, win):
+		win.addstr(self.y, self.x, self.sym, curses.color_pair(3))
 
 ############################################################
